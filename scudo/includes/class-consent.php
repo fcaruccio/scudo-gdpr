@@ -5,17 +5,17 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class GDPR_Press_Consent {
+class Scudo_Consent {
 
-    private const TABLE   = 'gdpr_press_consent_log';
-    private const COOKIE  = 'gdpr_press_consent';
-    private const VERSION = 'gdpr_press_policy_version';
+    private const TABLE   = 'scudo_consent_log';
+    private const COOKIE  = 'scudo_consent';
+    private const VERSION = 'scudo_policy_version';
 
     /* ── Singleton hook ──────────────────────────────────────────── */
 
     public static function init(): void {
-        add_action( 'wp_ajax_gdpr_press_save_consent', [ __CLASS__, 'ajax_save' ] );
-        add_action( 'wp_ajax_nopriv_gdpr_press_save_consent', [ __CLASS__, 'ajax_save' ] );
+        add_action( 'wp_ajax_scudo_save_consent', [ __CLASS__, 'ajax_save' ] );
+        add_action( 'wp_ajax_nopriv_scudo_save_consent', [ __CLASS__, 'ajax_save' ] );
     }
 
     /* ── Attivazione: crea tabella log consensi ──────────────────── */
@@ -47,7 +47,7 @@ class GDPR_Press_Consent {
             update_option( self::VERSION, gmdate( 'Y-m-d' ) );
         }
 
-        update_option( 'gdpr_press_db_version', GDPR_PRESS_VERSION );
+        update_option( 'scudo_db_version', SCUDO_VERSION );
     }
 
     public static function deactivate(): void {
@@ -58,7 +58,7 @@ class GDPR_Press_Consent {
 
     public static function ajax_save(): void {
         // Nonce verificato lato JS
-        check_ajax_referer( 'gdpr_press_nonce', 'nonce' );
+        check_ajax_referer( 'scudo_nonce', 'nonce' );
 
         $action_type = sanitize_text_field( wp_unslash( $_POST['consent_action'] ?? '' ) );
         $choices_raw = wp_unslash( $_POST['choices'] ?? '{}' );
@@ -76,7 +76,7 @@ class GDPR_Press_Consent {
         $clean['necessary'] = true; // sempre attivi
 
         $consent_id = self::get_or_create_consent_id();
-        $options    = gdpr_press_options();
+        $options    = scudo_options();
 
         // Log nel DB
         if ( $options['consent_logging'] ) {
@@ -127,8 +127,8 @@ class GDPR_Press_Consent {
     /* ── Helper: consent ID ──────────────────────────────────────── */
 
     private static function get_or_create_consent_id(): string {
-        if ( ! empty( $_COOKIE['gdpr_press_cid'] ) ) {
-            return sanitize_text_field( $_COOKIE['gdpr_press_cid'] );
+        if ( ! empty( $_COOKIE['scudo_cid'] ) ) {
+            return sanitize_text_field( $_COOKIE['scudo_cid'] );
         }
         return wp_generate_uuid4();
     }
@@ -164,7 +164,7 @@ class GDPR_Press_Consent {
         }
 
         // Verifica scadenza e versione policy
-        $options = gdpr_press_options();
+        $options = scudo_options();
         $max_age = absint( $options['consent_expiry'] ) * DAY_IN_SECONDS;
         $current_version = get_option( self::VERSION, '' );
 
@@ -220,14 +220,14 @@ class GDPR_Press_Consent {
             wp_die( 'Unauthorized' );
         }
 
-        check_admin_referer( 'gdpr_press_export_csv' );
+        check_admin_referer( 'scudo_export_csv' );
 
         global $wpdb;
         $table = $wpdb->prefix . self::TABLE;
 
         $rows = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY created_at DESC", ARRAY_A );
 
-        $filename = 'gdpr-press-consent-log-' . gmdate( 'Y-m-d' ) . '.csv';
+        $filename = 'scudo-consent-log-' . gmdate( 'Y-m-d' ) . '.csv';
 
         header( 'Content-Type: text/csv; charset=utf-8' );
         header( 'Content-Disposition: attachment; filename=' . $filename );

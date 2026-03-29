@@ -1,21 +1,21 @@
 /**
- * GDPR Press — Banner & Consent Manager
+ * Scudo — Banner & Consent Manager
  *
  * Vanilla JS, zero dipendenze, ~5KB minificato.
  */
 (function () {
     'use strict';
 
-    var C = window.gdprPressConfig || {};
-    var COOKIE = C.cookieName || 'gdpr_press_consent';
-    var CID_COOKIE = C.cidCookieName || 'gdpr_press_cid';
+    var C = window.scudoConfig || {};
+    var COOKIE = C.cookieName || 'scudo_consent';
+    var CID_COOKIE = C.cidCookieName || 'scudo_cid';
     var EXPIRY_DAYS = C.expiry || 180;
 
     /* ── Elementi DOM ────────────────────────────────────────────── */
 
-    var banner = document.getElementById('gdpr-press-banner');
-    var prefs = document.getElementById('gdpr-press-prefs');
-    var reopen = document.getElementById('gdpr-press-reopen');
+    var banner = document.getElementById('scudo-banner');
+    var prefs = document.getElementById('scudo-prefs');
+    var reopen = document.getElementById('scudo-reopen');
 
     if (!banner) return;
 
@@ -84,14 +84,14 @@
         // Google Consent Mode v2 update
         if (C.gcmEnabled && C.gcmUpdateJs) {
             try {
-                new Function(C.gcmUpdateJs + ';gdprPressGcmUpdate(' + JSON.stringify(choices) + ');')();
+                new Function(C.gcmUpdateJs + ';scudoGcmUpdate(' + JSON.stringify(choices) + ');')();
             } catch (e) { /* silenzioso */ }
         }
 
         // Log AJAX (fire-and-forget)
         if (C.ajaxUrl && C.nonce) {
             var fd = new FormData();
-            fd.append('action', 'gdpr_press_save_consent');
+            fd.append('action', 'scudo_save_consent');
             fd.append('nonce', C.nonce);
             fd.append('consent_action', actionType);
             fd.append('choices', JSON.stringify(choices));
@@ -103,7 +103,7 @@
         activatePlaceholders(choices);
 
         // Dispatch evento custom per altri plugin
-        document.dispatchEvent(new CustomEvent('gdprPressConsent', { detail: choices }));
+        document.dispatchEvent(new CustomEvent('scudoConsent', { detail: choices }));
     }
 
     /* ── Attiva script bloccati ──────────────────────────────────── */
@@ -134,7 +134,7 @@
     /* ── Attiva placeholder iframe ───────────────────────────────── */
 
     function activatePlaceholders(choices) {
-        var placeholders = document.querySelectorAll('.gdpr-press-placeholder[data-gdpr-category]');
+        var placeholders = document.querySelectorAll('.scudo-placeholder[data-gdpr-category]');
         for (var i = 0; i < placeholders.length; i++) {
             var cat = placeholders[i].getAttribute('data-gdpr-category');
             if (choices[cat]) {
@@ -189,7 +189,7 @@
             if (cb) cb.checked = consent ? !!consent[cats[i]] : false;
         }
         // Focus sul pannello
-        var closeBtn = prefs.querySelector('.gdpr-press-prefs__close');
+        var closeBtn = prefs.querySelector('.scudo-prefs__close');
         if (closeBtn) closeBtn.focus();
         // Blocca scroll body
         document.body.style.overflow = 'hidden';

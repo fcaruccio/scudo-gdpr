@@ -9,7 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class GDPR_Press_Blocker {
+class Scudo_Blocker {
 
     /**
      * Pattern di dominio → categoria GDPR.
@@ -76,9 +76,9 @@ class GDPR_Press_Blocker {
             return;
         }
 
-        $consent = GDPR_Press_Consent::get_current_consent();
+        $consent = Scudo_Consent::get_current_consent();
         $all_accepted = $consent !== null && ! empty( $consent['analytics'] ) && ! empty( $consent['marketing'] ) && ! empty( $consent['preferences'] );
-        $fonts_active = class_exists( 'GDPR_Press_Fonts' ) && GDPR_Press_Fonts::is_active();
+        $fonts_active = class_exists( 'Scudo_Fonts' ) && Scudo_Fonts::is_active();
 
         // Se tutto è accettato E i font non sono in self-hosting, non intercettiamo (performance)
         if ( $all_accepted && ! $fonts_active ) {
@@ -99,8 +99,8 @@ class GDPR_Press_Blocker {
             return $html; // non è HTML, non toccare
         }
 
-        $consent = GDPR_Press_Consent::get_current_consent();
-        $options = gdpr_press_options();
+        $consent = Scudo_Consent::get_current_consent();
+        $options = scudo_options();
 
         // Pattern personalizzati dall'admin
         $custom_patterns = array_filter( array_map( 'trim', explode( "\n", $options['custom_block_patterns'] ) ) );
@@ -115,8 +115,8 @@ class GDPR_Press_Blocker {
         $html = self::block_link_hints( $html, $consent );
 
         // Self-hosting Google Fonts: riscrivi URL
-        if ( class_exists( 'GDPR_Press_Fonts' ) && GDPR_Press_Fonts::is_active() ) {
-            $html = GDPR_Press_Fonts::rewrite_html( $html );
+        if ( class_exists( 'Scudo_Fonts' ) && Scudo_Fonts::is_active() ) {
+            $html = Scudo_Fonts::rewrite_html( $html );
         }
 
         return $html;
@@ -286,16 +286,16 @@ class GDPR_Press_Blocker {
         $service = esc_html( $info['service'] );
         $cat_attr = esc_attr( $category );
 
-        $privacy_note = esc_html__( 'Per tutelare la tua privacy, questo contenuto non viene caricato automaticamente. Se scegli di visualizzarlo, i tuoi dati potrebbero essere condivisi con', 'gdpr-press' );
-        $btn_text     = esc_html__( 'Gestisci le tue preferenze cookie', 'gdpr-press' );
+        $privacy_note = esc_html__( 'Per tutelare la tua privacy, questo contenuto non viene caricato automaticamente. Se scegli di visualizzarlo, i tuoi dati potrebbero essere condivisi con', 'scudo' );
+        $btn_text     = esc_html__( 'Gestisci le tue preferenze cookie', 'scudo' );
 
-        return '<div class="gdpr-press-placeholder" data-gdpr-category="' . $cat_attr . '" data-gdpr-src="' . esc_attr( $src ) . '" data-gdpr-attrs="' . esc_attr( $attrs ) . '" style="width:' . esc_attr( $width ) . ';height:' . esc_attr( $height ) . '">'
-             . '<div class="gdpr-press-placeholder__inner">'
-             . '<div class="gdpr-press-placeholder__icon">' . $icon . '</div>'
-             . '<p class="gdpr-press-placeholder__title">' . $title . '</p>'
-             . '<p class="gdpr-press-placeholder__text">' . $desc . '</p>'
-             . '<p class="gdpr-press-placeholder__privacy">' . $privacy_note . ' <strong>' . $service . '</strong>.</p>'
-             . '<button type="button" class="gdpr-press-placeholder__btn" data-gdpr-action="customize">' . $btn_text . '</button>'
+        return '<div class="scudo-placeholder" data-gdpr-category="' . $cat_attr . '" data-gdpr-src="' . esc_attr( $src ) . '" data-gdpr-attrs="' . esc_attr( $attrs ) . '" style="width:' . esc_attr( $width ) . ';height:' . esc_attr( $height ) . '">'
+             . '<div class="scudo-placeholder__inner">'
+             . '<div class="scudo-placeholder__icon">' . $icon . '</div>'
+             . '<p class="scudo-placeholder__title">' . $title . '</p>'
+             . '<p class="scudo-placeholder__text">' . $desc . '</p>'
+             . '<p class="scudo-placeholder__privacy">' . $privacy_note . ' <strong>' . $service . '</strong>.</p>'
+             . '<button type="button" class="scudo-placeholder__btn" data-gdpr-action="customize">' . $btn_text . '</button>'
              . '</div></div>';
     }
 
@@ -312,9 +312,9 @@ class GDPR_Press_Blocker {
         // Fallback generico
         return [
             'icon'    => '<svg width="32" height="32" viewBox="0 0 24 24" fill="#6b7280" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
-            'title'   => __( 'Contenuto esterno', 'gdpr-press' ),
-            'desc'    => __( 'Qui è presente un contenuto incorporato da un servizio esterno.', 'gdpr-press' ),
-            'service' => __( 'un servizio di terze parti', 'gdpr-press' ),
+            'title'   => __( 'Contenuto esterno', 'scudo' ),
+            'desc'    => __( 'Qui è presente un contenuto incorporato da un servizio esterno.', 'scudo' ),
+            'service' => __( 'un servizio di terze parti', 'scudo' ),
         ];
     }
 
@@ -333,7 +333,7 @@ class GDPR_Press_Blocker {
                 }
 
                 // Rimuovi il tag: non serve se lo script è bloccato
-                return '<!-- gdpr-press: blocked link hint (' . esc_html( $category ) . ') -->';
+                return '<!-- scudo: blocked link hint (' . esc_html( $category ) . ') -->';
             },
             $html
         ) ?? $html;

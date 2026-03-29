@@ -8,10 +8,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class GDPR_Press_GCM {
+class Scudo_GCM {
 
     public static function init(): void {
-        $options = gdpr_press_options();
+        $options = scudo_options();
         if ( empty( $options['gcm_enabled'] ) ) {
             return;
         }
@@ -25,7 +25,7 @@ class GDPR_Press_GCM {
      * Tutti i parametri su "denied" finché l'utente non acconsente.
      */
     public static function render_default_consent(): void {
-        $consent = GDPR_Press_Consent::get_current_consent();
+        $consent = Scudo_Consent::get_current_consent();
 
         // Determina lo stato iniziale in base al consenso corrente
         $analytics_granted   = ( $consent && ! empty( $consent['analytics'] ) ) ? 'granted' : 'denied';
@@ -53,7 +53,7 @@ gtag('consent','default',{
      * Restituisce il JS per aggiornare il consenso GCM (chiamato dal banner JS).
      */
     public static function get_update_js(): string {
-        return "function gdprPressGcmUpdate(c){if(typeof gtag!=='function')return;"
+        return "function scudoGcmUpdate(c){if(typeof gtag!=='function')return;"
              . "gtag('consent','update',{"
              . "'ad_storage':c.marketing?'granted':'denied',"
              . "'ad_user_data':c.marketing?'granted':'denied',"

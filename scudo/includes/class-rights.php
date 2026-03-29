@@ -2,21 +2,21 @@
 /**
  * Gestione diritti degli interessati (Artt. 15-22 GDPR).
  *
- * - Shortcode [gdpr_press_rights_form] per il form frontend
+ * - Shortcode [scudo_rights_form] per il form frontend
  * - Integrazione con WordPress export/erase data
  * - Notifica email al titolare
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class GDPR_Press_Rights {
+class Scudo_Rights {
 
-    private const TABLE = 'gdpr_press_rights_requests';
+    private const TABLE = 'scudo_rights_requests';
 
     public static function init(): void {
-        add_shortcode( 'gdpr_press_rights_form', [ __CLASS__, 'shortcode_form' ] );
-        add_action( 'wp_ajax_gdpr_press_submit_rights_request', [ __CLASS__, 'ajax_submit' ] );
-        add_action( 'wp_ajax_nopriv_gdpr_press_submit_rights_request', [ __CLASS__, 'ajax_submit' ] );
+        add_shortcode( 'scudo_rights_form', [ __CLASS__, 'shortcode_form' ] );
+        add_action( 'wp_ajax_scudo_submit_rights_request', [ __CLASS__, 'ajax_submit' ] );
+        add_action( 'wp_ajax_nopriv_scudo_submit_rights_request', [ __CLASS__, 'ajax_submit' ] );
 
         // Integra con WordPress Privacy Tools
         add_filter( 'wp_privacy_personal_data_exporters', [ __CLASS__, 'register_exporter' ] );
@@ -51,25 +51,25 @@ class GDPR_Press_Rights {
     /* ── Shortcode: form esercizio diritti ────────────────────────── */
 
     public static function shortcode_form(): string {
-        $nonce = wp_create_nonce( 'gdpr_press_rights_nonce' );
+        $nonce = wp_create_nonce( 'scudo_rights_nonce' );
 
         $types = [
-            'access'       => __( 'Accesso ai miei dati (Art. 15)', 'gdpr-press' ),
-            'rectification' => __( 'Rettifica dei miei dati (Art. 16)', 'gdpr-press' ),
-            'erasure'      => __( 'Cancellazione dei miei dati (Art. 17)', 'gdpr-press' ),
-            'restriction'  => __( 'Limitazione del trattamento (Art. 18)', 'gdpr-press' ),
-            'portability'  => __( 'Portabilità dei miei dati (Art. 20)', 'gdpr-press' ),
-            'objection'    => __( 'Opposizione al trattamento (Art. 21)', 'gdpr-press' ),
+            'access'       => __( 'Accesso ai miei dati (Art. 15)', 'scudo' ),
+            'rectification' => __( 'Rettifica dei miei dati (Art. 16)', 'scudo' ),
+            'erasure'      => __( 'Cancellazione dei miei dati (Art. 17)', 'scudo' ),
+            'restriction'  => __( 'Limitazione del trattamento (Art. 18)', 'scudo' ),
+            'portability'  => __( 'Portabilità dei miei dati (Art. 20)', 'scudo' ),
+            'objection'    => __( 'Opposizione al trattamento (Art. 21)', 'scudo' ),
         ];
 
-        $html = '<div class="gdpr-press-rights-form" id="gdpr-press-rights-form">';
+        $html = '<div class="scudo-rights-form" id="scudo-rights-form">';
         $html .= '<form id="gdpr-rights-form">';
 
         // Tipo di richiesta
         $html .= '<div style="margin-bottom:16px;">';
-        $html .= '<label for="gdpr_right_type" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Tipo di richiesta *', 'gdpr-press' ) . '</label>';
+        $html .= '<label for="gdpr_right_type" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Tipo di richiesta *', 'scudo' ) . '</label>';
         $html .= '<select name="request_type" id="gdpr_right_type" required style="width:100%;max-width:500px;padding:8px;">';
-        $html .= '<option value="">' . esc_html__( '— Seleziona —', 'gdpr-press' ) . '</option>';
+        $html .= '<option value="">' . esc_html__( '— Seleziona —', 'scudo' ) . '</option>';
         foreach ( $types as $val => $label ) {
             $html .= '<option value="' . esc_attr( $val ) . '">' . esc_html( $label ) . '</option>';
         }
@@ -77,30 +77,30 @@ class GDPR_Press_Rights {
 
         // Nome
         $html .= '<div style="margin-bottom:16px;">';
-        $html .= '<label for="gdpr_right_name" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Nome e Cognome *', 'gdpr-press' ) . '</label>';
+        $html .= '<label for="gdpr_right_name" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Nome e Cognome *', 'scudo' ) . '</label>';
         $html .= '<input type="text" name="name" id="gdpr_right_name" required style="width:100%;max-width:500px;padding:8px;">';
         $html .= '</div>';
 
         // Email
         $html .= '<div style="margin-bottom:16px;">';
-        $html .= '<label for="gdpr_right_email" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Email *', 'gdpr-press' ) . '</label>';
+        $html .= '<label for="gdpr_right_email" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Email *', 'scudo' ) . '</label>';
         $html .= '<input type="email" name="email" id="gdpr_right_email" required style="width:100%;max-width:500px;padding:8px;">';
-        $html .= '<p style="font-size:0.85em;color:#666;margin-top:4px;">' . esc_html__( 'Utilizzeremo questo indirizzo per rispondere alla tua richiesta e per verificare la tua identità.', 'gdpr-press' ) . '</p>';
+        $html .= '<p style="font-size:0.85em;color:#666;margin-top:4px;">' . esc_html__( 'Utilizzeremo questo indirizzo per rispondere alla tua richiesta e per verificare la tua identità.', 'scudo' ) . '</p>';
         $html .= '</div>';
 
         // Messaggio
         $html .= '<div style="margin-bottom:16px;">';
-        $html .= '<label for="gdpr_right_message" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Dettagli della richiesta', 'gdpr-press' ) . '</label>';
+        $html .= '<label for="gdpr_right_message" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Dettagli della richiesta', 'scudo' ) . '</label>';
         $html .= '<textarea name="message" id="gdpr_right_message" rows="4" style="width:100%;max-width:500px;padding:8px;"></textarea>';
         $html .= '</div>';
 
         // Honeypot (anti-spam)
-        $html .= '<div style="position:absolute;left:-9999px;" aria-hidden="true"><input type="text" name="gdpr_press_hp" tabindex="-1" autocomplete="off"></div>';
+        $html .= '<div style="position:absolute;left:-9999px;" aria-hidden="true"><input type="text" name="scudo_hp" tabindex="-1" autocomplete="off"></div>';
 
         $html .= '<input type="hidden" name="nonce" value="' . esc_attr( $nonce ) . '">';
 
         $html .= '<button type="submit" style="background:#1a1a2e;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;min-height:44px;">';
-        $html .= esc_html__( 'Invia richiesta', 'gdpr-press' );
+        $html .= esc_html__( 'Invia richiesta', 'scudo' );
         $html .= '</button>';
 
         $html .= '<div id="gdpr-rights-status" style="margin-top:16px;"></div>';
@@ -117,9 +117,9 @@ class GDPR_Press_Rights {
                 var status = document.getElementById("gdpr-rights-status");
                 var btn = form.querySelector("button[type=submit]");
                 btn.disabled = true;
-                status.textContent = "' . esc_js( __( 'Invio in corso...', 'gdpr-press' ) ) . '";
+                status.textContent = "' . esc_js( __( 'Invio in corso...', 'scudo' ) ) . '";
                 var fd = new FormData(form);
-                fd.append("action","gdpr_press_submit_rights_request");
+                fd.append("action","scudo_submit_rights_request");
                 fetch("' . esc_url( admin_url( 'admin-ajax.php' ) ) . '",{method:"POST",body:fd,credentials:"same-origin"})
                     .then(function(r){return r.json()})
                     .then(function(data){
@@ -133,7 +133,7 @@ class GDPR_Press_Rights {
                     })
                     .catch(function(){
                         btn.disabled = false;
-                        status.innerHTML = "<p style=\"color:#e94560;\">' . esc_js( __( 'Errore di rete. Riprova.', 'gdpr-press' ) ) . '</p>";
+                        status.innerHTML = "<p style=\"color:#e94560;\">' . esc_js( __( 'Errore di rete. Riprova.', 'scudo' ) ) . '</p>";
                     });
             });
         })();
@@ -145,10 +145,10 @@ class GDPR_Press_Rights {
     /* ── AJAX: submit richiesta ──────────────────────────────────── */
 
     public static function ajax_submit(): void {
-        check_ajax_referer( 'gdpr_press_rights_nonce', 'nonce' );
+        check_ajax_referer( 'scudo_rights_nonce', 'nonce' );
 
         // Honeypot check
-        if ( ! empty( $_POST['gdpr_press_hp'] ) ) {
+        if ( ! empty( $_POST['scudo_hp'] ) ) {
             wp_send_json_error( 'spam', 400 );
         }
 
@@ -160,7 +160,7 @@ class GDPR_Press_Rights {
         $valid_types = [ 'access', 'rectification', 'erasure', 'restriction', 'portability', 'objection' ];
 
         if ( ! in_array( $type, $valid_types, true ) || empty( $name ) || ! is_email( $email ) ) {
-            wp_send_json_error( __( 'Compila tutti i campi obbligatori.', 'gdpr-press' ) );
+            wp_send_json_error( __( 'Compila tutti i campi obbligatori.', 'scudo' ) );
         }
 
         // Salva nel DB
@@ -189,7 +189,7 @@ class GDPR_Press_Rights {
         self::notify_controller( $type, $name, $email, $message );
 
         wp_send_json_success( [
-            'message' => __( 'La tua richiesta è stata inviata con successo. Ti risponderemo entro 30 giorni come previsto dal GDPR.', 'gdpr-press' ),
+            'message' => __( 'La tua richiesta è stata inviata con successo. Ti risponderemo entro 30 giorni come previsto dal GDPR.', 'scudo' ),
         ] );
     }
 
@@ -200,27 +200,27 @@ class GDPR_Press_Rights {
         $site_name   = get_bloginfo( 'name' );
 
         $type_labels = [
-            'access'        => __( 'Accesso ai dati', 'gdpr-press' ),
-            'rectification' => __( 'Rettifica dei dati', 'gdpr-press' ),
-            'erasure'       => __( 'Cancellazione dei dati', 'gdpr-press' ),
-            'restriction'   => __( 'Limitazione del trattamento', 'gdpr-press' ),
-            'portability'   => __( 'Portabilità dei dati', 'gdpr-press' ),
-            'objection'     => __( 'Opposizione al trattamento', 'gdpr-press' ),
+            'access'        => __( 'Accesso ai dati', 'scudo' ),
+            'rectification' => __( 'Rettifica dei dati', 'scudo' ),
+            'erasure'       => __( 'Cancellazione dei dati', 'scudo' ),
+            'restriction'   => __( 'Limitazione del trattamento', 'scudo' ),
+            'portability'   => __( 'Portabilità dei dati', 'scudo' ),
+            'objection'     => __( 'Opposizione al trattamento', 'scudo' ),
         ];
 
         $type_label = $type_labels[ $type ] ?? $type;
 
-        $subject = sprintf( '[%s] %s — %s', $site_name, __( 'Richiesta GDPR', 'gdpr-press' ), $type_label );
+        $subject = sprintf( '[%s] %s — %s', $site_name, __( 'Richiesta GDPR', 'scudo' ), $type_label );
 
-        $body  = sprintf( __( 'Nuova richiesta di esercizio diritti GDPR su %s', 'gdpr-press' ), $site_name ) . "\n\n";
-        $body .= __( 'Tipo:', 'gdpr-press' ) . ' ' . $type_label . "\n";
-        $body .= __( 'Nome:', 'gdpr-press' ) . ' ' . $name . "\n";
-        $body .= __( 'Email:', 'gdpr-press' ) . ' ' . $email . "\n";
+        $body  = sprintf( __( 'Nuova richiesta di esercizio diritti GDPR su %s', 'scudo' ), $site_name ) . "\n\n";
+        $body .= __( 'Tipo:', 'scudo' ) . ' ' . $type_label . "\n";
+        $body .= __( 'Nome:', 'scudo' ) . ' ' . $name . "\n";
+        $body .= __( 'Email:', 'scudo' ) . ' ' . $email . "\n";
         if ( $message ) {
-            $body .= __( 'Messaggio:', 'gdpr-press' ) . "\n" . $message . "\n";
+            $body .= __( 'Messaggio:', 'scudo' ) . "\n" . $message . "\n";
         }
-        $body .= "\n" . __( 'Ricorda: il GDPR prevede una risposta entro 30 giorni dalla richiesta.', 'gdpr-press' );
-        $body .= "\n\n" . admin_url( 'options-general.php?page=gdpr-press' );
+        $body .= "\n" . __( 'Ricorda: il GDPR prevede una risposta entro 30 giorni dalla richiesta.', 'scudo' );
+        $body .= "\n\n" . admin_url( 'options-general.php?page=scudo' );
 
         wp_mail( $admin_email, $subject, $body );
     }
@@ -228,8 +228,8 @@ class GDPR_Press_Rights {
     /* ── WordPress Privacy Tools: Exporter ───────────────────────── */
 
     public static function register_exporter( array $exporters ): array {
-        $exporters['gdpr-press-consent'] = [
-            'exporter_friendly_name' => __( 'GDPR Press — Consensi', 'gdpr-press' ),
+        $exporters['scudo-consent'] = [
+            'exporter_friendly_name' => __( 'Scudo — Consensi', 'scudo' ),
             'callback'               => [ __CLASS__, 'export_consent_data' ],
         ];
         return $exporters;
@@ -237,7 +237,7 @@ class GDPR_Press_Rights {
 
     public static function export_consent_data( string $email, int $page = 1 ): array {
         global $wpdb;
-        $table = $wpdb->prefix . 'gdpr_press_consent_log';
+        $table = $wpdb->prefix . 'scudo_consent_log';
 
         // Non possiamo cercare per email (salviamo solo IP hash),
         // ma possiamo cercare per consent_id se l'utente è loggato
@@ -249,8 +249,8 @@ class GDPR_Press_Rights {
     /* ── WordPress Privacy Tools: Eraser ─────────────────────────── */
 
     public static function register_eraser( array $erasers ): array {
-        $erasers['gdpr-press-consent'] = [
-            'eraser_friendly_name' => __( 'GDPR Press — Consensi', 'gdpr-press' ),
+        $erasers['scudo-consent'] = [
+            'eraser_friendly_name' => __( 'Scudo — Consensi', 'scudo' ),
             'callback'             => [ __CLASS__, 'erase_consent_data' ],
         ];
         return $erasers;

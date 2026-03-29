@@ -4,12 +4,12 @@
  *
  * - Database integrato di cookie noti (GA, Facebook, WordPress, ecc.)
  * - Scansione AJAX che visita il sito e rileva i cookie attivi
- * - Shortcode [gdpr_press_cookie_table] per la pagina cookie policy
+ * - Shortcode [scudo_cookie_table] per la pagina cookie policy
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class GDPR_Press_Scanner {
+class Scudo_Scanner {
 
     /**
      * Database integrato di cookie noti.
@@ -84,20 +84,20 @@ class GDPR_Press_Scanner {
             'provider' => 'Questo sito (WooCommerce)',
         ],
 
-        // ── GDPR Press (noi stessi) ──
-        'gdpr_press_consent' => [
-            'name'     => 'gdpr_press_consent',
+        // ── Scudo (noi stessi) ──
+        'scudo_consent' => [
+            'name'     => 'scudo_consent',
             'category' => 'necessary',
             'duration' => '6 mesi',
             'desc'     => 'Memorizza le preferenze cookie espresse dall\'utente.',
-            'provider' => 'Questo sito (GDPR Press)',
+            'provider' => 'Questo sito (Scudo)',
         ],
-        'gdpr_press_cid' => [
-            'name'     => 'gdpr_press_cid',
+        'scudo_cid' => [
+            'name'     => 'scudo_cid',
             'category' => 'necessary',
             'duration' => '6 mesi',
             'desc'     => 'Identificativo anonimo per la registrazione del consenso.',
-            'provider' => 'Questo sito (GDPR Press)',
+            'provider' => 'Questo sito (Scudo)',
         ],
 
         // ── Google Analytics ──
@@ -284,10 +284,10 @@ class GDPR_Press_Scanner {
 
     public static function init(): void {
         // Shortcode per la tabella cookie nella cookie policy
-        add_shortcode( 'gdpr_press_cookie_table', [ __CLASS__, 'shortcode_cookie_table' ] );
+        add_shortcode( 'scudo_cookie_table', [ __CLASS__, 'shortcode_cookie_table' ] );
 
         // AJAX per la scansione
-        add_action( 'wp_ajax_gdpr_press_scan_cookies', [ __CLASS__, 'ajax_scan' ] );
+        add_action( 'wp_ajax_scudo_scan_cookies', [ __CLASS__, 'ajax_scan' ] );
     }
 
     /* ── Shortcode: tabella cookie ───────────────────────────────── */
@@ -295,30 +295,30 @@ class GDPR_Press_Scanner {
     public static function shortcode_cookie_table( $atts ): string {
         $atts = shortcode_atts( [
             'show_empty' => 'no',
-        ], $atts, 'gdpr_press_cookie_table' );
+        ], $atts, 'scudo_cookie_table' );
 
         $cookies = self::get_cookie_list();
 
         // Raggruppa per categoria
         $categories = [
             'necessary'   => [
-                'label' => __( 'Cookie necessari', 'gdpr-press' ),
-                'desc'  => __( 'Questi cookie sono indispensabili per il funzionamento del sito e non possono essere disattivati. Vengono impostati in risposta ad azioni da te effettuate, come la gestione delle preferenze sulla privacy, il login o la compilazione di moduli.', 'gdpr-press' ),
+                'label' => __( 'Cookie necessari', 'scudo' ),
+                'desc'  => __( 'Questi cookie sono indispensabili per il funzionamento del sito e non possono essere disattivati. Vengono impostati in risposta ad azioni da te effettuate, come la gestione delle preferenze sulla privacy, il login o la compilazione di moduli.', 'scudo' ),
                 'items' => [],
             ],
             'analytics'   => [
-                'label' => __( 'Cookie analitici', 'gdpr-press' ),
-                'desc'  => __( 'Questi cookie ci permettono di contare le visite e le fonti di traffico per misurare e migliorare le prestazioni del nostro sito. Ci aiutano a capire quali pagine sono più o meno popolari e a vedere come i visitatori si muovono nel sito. Tutte le informazioni raccolte da questi cookie sono aggregate e quindi anonime.', 'gdpr-press' ),
+                'label' => __( 'Cookie analitici', 'scudo' ),
+                'desc'  => __( 'Questi cookie ci permettono di contare le visite e le fonti di traffico per misurare e migliorare le prestazioni del nostro sito. Ci aiutano a capire quali pagine sono più o meno popolari e a vedere come i visitatori si muovono nel sito. Tutte le informazioni raccolte da questi cookie sono aggregate e quindi anonime.', 'scudo' ),
                 'items' => [],
             ],
             'marketing'   => [
-                'label' => __( 'Cookie di marketing', 'gdpr-press' ),
-                'desc'  => __( 'Questi cookie possono essere impostati attraverso il nostro sito da parte dei nostri partner pubblicitari. Possono essere utilizzati da queste aziende per costruire un profilo dei tuoi interessi e mostrarti annunci pertinenti su altri siti. Non memorizzano direttamente informazioni personali, ma si basano sull\'identificazione univoca del tuo browser e dispositivo.', 'gdpr-press' ),
+                'label' => __( 'Cookie di marketing', 'scudo' ),
+                'desc'  => __( 'Questi cookie possono essere impostati attraverso il nostro sito da parte dei nostri partner pubblicitari. Possono essere utilizzati da queste aziende per costruire un profilo dei tuoi interessi e mostrarti annunci pertinenti su altri siti. Non memorizzano direttamente informazioni personali, ma si basano sull\'identificazione univoca del tuo browser e dispositivo.', 'scudo' ),
                 'items' => [],
             ],
             'preferences' => [
-                'label' => __( 'Cookie di preferenza', 'gdpr-press' ),
-                'desc'  => __( 'Questi cookie permettono al sito di ricordare le scelte che hai fatto (come la lingua o la regione) e di fornire funzionalità avanzate e personalizzate.', 'gdpr-press' ),
+                'label' => __( 'Cookie di preferenza', 'scudo' ),
+                'desc'  => __( 'Questi cookie permettono al sito di ricordare le scelte che hai fatto (come la lingua o la regione) e di fornire funzionalità avanzate e personalizzate.', 'scudo' ),
                 'items' => [],
             ],
         ];
@@ -331,25 +331,25 @@ class GDPR_Press_Scanner {
         }
 
         // Genera HTML
-        $html = '<div class="gdpr-press-cookie-policy">';
+        $html = '<div class="scudo-cookie-policy">';
 
         foreach ( $categories as $cat_slug => $cat_data ) {
             if ( empty( $cat_data['items'] ) && $atts['show_empty'] !== 'yes' ) {
                 continue;
             }
 
-            $html .= '<div class="gdpr-press-cookie-policy__section">';
-            $html .= '<h3 class="gdpr-press-cookie-policy__heading">' . esc_html( $cat_data['label'] ) . '</h3>';
-            $html .= '<p class="gdpr-press-cookie-policy__desc">' . esc_html( $cat_data['desc'] ) . '</p>';
+            $html .= '<div class="scudo-cookie-policy__section">';
+            $html .= '<h3 class="scudo-cookie-policy__heading">' . esc_html( $cat_data['label'] ) . '</h3>';
+            $html .= '<p class="scudo-cookie-policy__desc">' . esc_html( $cat_data['desc'] ) . '</p>';
 
             if ( ! empty( $cat_data['items'] ) ) {
-                $html .= '<div class="gdpr-press-cookie-policy__table-wrap">';
-                $html .= '<table class="gdpr-press-cookie-policy__table">';
+                $html .= '<div class="scudo-cookie-policy__table-wrap">';
+                $html .= '<table class="scudo-cookie-policy__table">';
                 $html .= '<thead><tr>'
-                       . '<th>' . esc_html__( 'Cookie', 'gdpr-press' ) . '</th>'
-                       . '<th>' . esc_html__( 'Fornitore', 'gdpr-press' ) . '</th>'
-                       . '<th>' . esc_html__( 'Durata', 'gdpr-press' ) . '</th>'
-                       . '<th>' . esc_html__( 'Descrizione', 'gdpr-press' ) . '</th>'
+                       . '<th>' . esc_html__( 'Cookie', 'scudo' ) . '</th>'
+                       . '<th>' . esc_html__( 'Fornitore', 'scudo' ) . '</th>'
+                       . '<th>' . esc_html__( 'Durata', 'scudo' ) . '</th>'
+                       . '<th>' . esc_html__( 'Descrizione', 'scudo' ) . '</th>'
                        . '</tr></thead><tbody>';
 
                 foreach ( $cat_data['items'] as $cookie ) {
@@ -363,31 +363,31 @@ class GDPR_Press_Scanner {
 
                 $html .= '</tbody></table></div>';
             } else {
-                $html .= '<p><em>' . esc_html__( 'Nessun cookie in questa categoria.', 'gdpr-press' ) . '</em></p>';
+                $html .= '<p><em>' . esc_html__( 'Nessun cookie in questa categoria.', 'scudo' ) . '</em></p>';
             }
 
             $html .= '</div>';
         }
 
         // Data ultimo aggiornamento
-        $html .= '<p class="gdpr-press-cookie-policy__updated"><small>'
-               . esc_html__( 'Ultimo aggiornamento:', 'gdpr-press' ) . ' '
-               . esc_html( get_option( 'gdpr_press_policy_version', gmdate( 'Y-m-d' ) ) )
+        $html .= '<p class="scudo-cookie-policy__updated"><small>'
+               . esc_html__( 'Ultimo aggiornamento:', 'scudo' ) . ' '
+               . esc_html( get_option( 'scudo_policy_version', gmdate( 'Y-m-d' ) ) )
                . '</small></p>';
 
         $html .= '</div>';
 
         // Stili inline minimali per la tabella (non dipende dal foglio di stile del banner)
         $html .= '<style>'
-               . '.gdpr-press-cookie-policy__section{margin-bottom:32px}'
-               . '.gdpr-press-cookie-policy__heading{font-size:1.2em;margin-bottom:8px}'
-               . '.gdpr-press-cookie-policy__desc{color:#555;margin-bottom:16px;font-size:.95em;line-height:1.6}'
-               . '.gdpr-press-cookie-policy__table-wrap{overflow-x:auto}'
-               . '.gdpr-press-cookie-policy__table{width:100%;border-collapse:collapse;font-size:.9em}'
-               . '.gdpr-press-cookie-policy__table th,.gdpr-press-cookie-policy__table td{padding:10px 12px;border:1px solid #e5e7eb;text-align:left;vertical-align:top}'
-               . '.gdpr-press-cookie-policy__table th{background:#f9fafb;font-weight:600;white-space:nowrap}'
-               . '.gdpr-press-cookie-policy__table code{font-size:.85em;background:#f3f4f6;padding:2px 6px;border-radius:3px}'
-               . '.gdpr-press-cookie-policy__updated{margin-top:24px;color:#888}'
+               . '.scudo-cookie-policy__section{margin-bottom:32px}'
+               . '.scudo-cookie-policy__heading{font-size:1.2em;margin-bottom:8px}'
+               . '.scudo-cookie-policy__desc{color:#555;margin-bottom:16px;font-size:.95em;line-height:1.6}'
+               . '.scudo-cookie-policy__table-wrap{overflow-x:auto}'
+               . '.scudo-cookie-policy__table{width:100%;border-collapse:collapse;font-size:.9em}'
+               . '.scudo-cookie-policy__table th,.scudo-cookie-policy__table td{padding:10px 12px;border:1px solid #e5e7eb;text-align:left;vertical-align:top}'
+               . '.scudo-cookie-policy__table th{background:#f9fafb;font-weight:600;white-space:nowrap}'
+               . '.scudo-cookie-policy__table code{font-size:.85em;background:#f3f4f6;padding:2px 6px;border-radius:3px}'
+               . '.scudo-cookie-policy__updated{margin-top:24px;color:#888}'
                . '</style>';
 
         return $html;
@@ -399,11 +399,11 @@ class GDPR_Press_Scanner {
         $cookies = [];
 
         // Cookie dal database integrato: includi quelli rilevanti per il sito
-        $detected = get_option( 'gdpr_press_detected_cookies', [] );
+        $detected = get_option( 'scudo_detected_cookies', [] );
 
-        // Sempre includi i cookie di GDPR Press e WordPress base
+        // Sempre includi i cookie di Scudo e WordPress base
         $always_include = [
-            'gdpr_press_consent', 'gdpr_press_cid',
+            'scudo_consent', 'scudo_cid',
             'wordpress_test_cookie',
         ];
 
@@ -426,7 +426,7 @@ class GDPR_Press_Scanner {
         }
 
         // Cookie personalizzati dall'admin
-        $custom = get_option( 'gdpr_press_custom_cookies', [] );
+        $custom = get_option( 'scudo_custom_cookies', [] );
         foreach ( $custom as $cc ) {
             if ( ! empty( $cc['name'] ) ) {
                 $cookies[] = [
@@ -445,7 +445,7 @@ class GDPR_Press_Scanner {
     /* ── Scansione AJAX (lanciata dall'admin) ────────────────────── */
 
     public static function ajax_scan(): void {
-        check_ajax_referer( 'gdpr_press_nonce', 'nonce' );
+        check_ajax_referer( 'scudo_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( 'unauthorized', 403 );
@@ -477,7 +477,7 @@ class GDPR_Press_Scanner {
         $detected = array_unique( $detected );
 
         // Salva i risultati
-        update_option( 'gdpr_press_detected_cookies', $detected );
+        update_option( 'scudo_detected_cookies', $detected );
 
         // Classifica i cookie rilevati
         $classified = [];

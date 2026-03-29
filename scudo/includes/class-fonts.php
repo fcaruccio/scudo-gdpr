@@ -2,23 +2,23 @@
 /**
  * Self-hosting Google Fonts.
  *
- * Scarica i font da Google, li salva localmente in wp-content/uploads/gdpr-press-fonts/
+ * Scarica i font da Google, li salva localmente in wp-content/uploads/scudo-fonts/
  * e riscrive i link CSS nell'output buffer per puntare ai file locali.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class GDPR_Press_Fonts {
+class Scudo_Fonts {
 
-    private const UPLOAD_DIR  = 'gdpr-press-fonts';
-    private const OPTION_MAP  = 'gdpr_press_fonts_map'; // mappa URL remoto → locale
+    private const UPLOAD_DIR  = 'scudo-fonts';
+    private const OPTION_MAP  = 'scudo_fonts_map'; // mappa URL remoto → locale
     private const GOOGLE_CSS  = 'fonts.googleapis.com';
     private const GOOGLE_FILE = 'fonts.gstatic.com';
 
     /* ── Init ────────────────────────────────────────────────────── */
 
     public static function init(): void {
-        add_action( 'wp_ajax_gdpr_press_download_fonts', [ __CLASS__, 'ajax_download' ] );
+        add_action( 'wp_ajax_scudo_download_fonts', [ __CLASS__, 'ajax_download' ] );
     }
 
     /**
@@ -39,7 +39,7 @@ class GDPR_Press_Fonts {
         // Rimuovi preconnect a fonts.googleapis.com e fonts.gstatic.com
         $html = preg_replace(
             '/<link[^>]*rel=["\'](?:preconnect|dns-prefetch)["\'][^>]*(?:fonts\.googleapis\.com|fonts\.gstatic\.com)[^>]*\/?>/i',
-            '<!-- gdpr-press: Google Fonts served locally -->',
+            '<!-- scudo: Google Fonts served locally -->',
             $html
         ) ?? $html;
 
@@ -49,7 +49,7 @@ class GDPR_Press_Fonts {
     /* ── AJAX: scarica i font ────────────────────────────────────── */
 
     public static function ajax_download(): void {
-        check_ajax_referer( 'gdpr_press_nonce', 'nonce' );
+        check_ajax_referer( 'scudo_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( 'unauthorized', 403 );
@@ -60,7 +60,7 @@ class GDPR_Press_Fonts {
 
         if ( empty( $css_urls ) ) {
             wp_send_json_success( [
-                'message' => __( 'Nessun Google Font rilevato nel sito.', 'gdpr-press' ),
+                'message' => __( 'Nessun Google Font rilevato nel sito.', 'scudo' ),
                 'count'   => 0,
             ] );
         }
@@ -68,7 +68,7 @@ class GDPR_Press_Fonts {
         // Step 2: Crea la directory di upload
         $upload_dir = self::get_upload_dir();
         if ( ! $upload_dir ) {
-            wp_send_json_error( __( 'Impossibile creare la directory dei font.', 'gdpr-press' ) );
+            wp_send_json_error( __( 'Impossibile creare la directory dei font.', 'scudo' ) );
         }
 
         $map = [];
@@ -87,7 +87,7 @@ class GDPR_Press_Fonts {
 
         wp_send_json_success( [
             'message'    => sprintf(
-                __( 'Scaricati %d font da %d fogli di stile Google Fonts. I font vengono ora serviti dal tuo server.', 'gdpr-press' ),
+                __( 'Scaricati %d font da %d fogli di stile Google Fonts. I font vengono ora serviti dal tuo server.', 'scudo' ),
                 $font_count,
                 count( $map )
             ),

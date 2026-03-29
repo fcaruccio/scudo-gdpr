@@ -7,9 +7,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-class GDPR_Press_I18n {
+class Scudo_I18n {
 
-    private const CONTEXT = 'GDPR Press';
+    private const CONTEXT = 'Scudo';
 
     /**
      * Chiavi delle opzioni che contengono stringhe traducibili.
@@ -31,7 +31,7 @@ class GDPR_Press_I18n {
 
     public static function init(): void {
         // Registra stringhe quando le opzioni vengono salvate
-        add_action( 'update_option_gdpr_press_options', [ __CLASS__, 'register_strings' ], 10, 2 );
+        add_action( 'update_option_scudo_options', [ __CLASS__, 'register_strings' ], 10, 2 );
 
         // Registra stringhe all'init (per la prima volta)
         add_action( 'init', [ __CLASS__, 'register_strings_on_init' ], 20 );
@@ -40,7 +40,7 @@ class GDPR_Press_I18n {
     /* ── Registra stringhe per WPML / Polylang ───────────────────── */
 
     public static function register_strings_on_init(): void {
-        $options = gdpr_press_options();
+        $options = scudo_options();
         self::do_register( $options );
     }
 

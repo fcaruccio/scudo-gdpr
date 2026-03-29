@@ -1,5 +1,5 @@
 /**
- * GDPR Press — Banner & Preferences Panel
+ * Scudo — Banner & Preferences Panel
  *
  * Leggero, accessibile (WCAG 2.1 AA), responsive.
  * Colori personalizzabili via CSS custom properties.
@@ -15,10 +15,10 @@
     --gdpr-reject: #5f6368;
 }
 
-.gdpr-press-banner,
-.gdpr-press-prefs,
-.gdpr-press-reopen,
-.gdpr-press-placeholder {
+.scudo-banner,
+.scudo-prefs,
+.scudo-reopen,
+.scudo-placeholder {
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     font-size: 14px;
@@ -26,9 +26,9 @@
     -webkit-font-smoothing: antialiased;
 }
 
-.gdpr-press-banner *,
-.gdpr-press-prefs *,
-.gdpr-press-placeholder * {
+.scudo-banner *,
+.scudo-prefs *,
+.scudo-placeholder * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -36,7 +36,7 @@
 
 /* ── Banner ──────────────────────────────────────────────────────── */
 
-.gdpr-press-banner {
+.scudo-banner {
     position: fixed;
     left: 0;
     right: 0;
@@ -50,15 +50,15 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.gdpr-press-banner--bottom { bottom: 0; }
-.gdpr-press-banner--top { top: 0; transform: translateY(-20px); }
+.scudo-banner--bottom { bottom: 0; }
+.scudo-banner--top { top: 0; transform: translateY(-20px); }
 
-.gdpr-press-banner:not([hidden]) {
+.scudo-banner:not([hidden]) {
     opacity: 1;
     transform: translateY(0);
 }
 
-.gdpr-press-banner__inner {
+.scudo-banner__inner {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px 24px;
@@ -69,43 +69,43 @@
     position: relative;
 }
 
-.gdpr-press-banner__content {
+.scudo-banner__content {
     flex: 1 1 400px;
     min-width: 0;
 }
 
-.gdpr-press-banner__title {
+.scudo-banner__title {
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 4px;
 }
 
-.gdpr-press-banner__text {
+.scudo-banner__text {
     font-size: 13px;
     opacity: 0.9;
 }
 
-.gdpr-press-banner__link {
+.scudo-banner__link {
     color: var(--gdpr-accent);
     text-decoration: underline;
     text-underline-offset: 2px;
 }
 
-.gdpr-press-banner__link:hover,
-.gdpr-press-banner__link:focus-visible {
+.scudo-banner__link:hover,
+.scudo-banner__link:focus-visible {
     opacity: 0.8;
 }
 
 /* ── Bottoni Banner ──────────────────────────────────────────────── */
 
-.gdpr-press-banner__actions {
+.scudo-banner__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     flex-shrink: 0;
 }
 
-.gdpr-press-btn {
+.scudo-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -121,38 +121,38 @@
     line-height: 1;
 }
 
-.gdpr-press-btn:hover { opacity: 0.9; }
-.gdpr-press-btn:active { transform: scale(0.97); }
+.scudo-btn:hover { opacity: 0.9; }
+.scudo-btn:active { transform: scale(0.97); }
 
-.gdpr-press-btn:focus-visible {
+.scudo-btn:focus-visible {
     outline: 3px solid var(--gdpr-accent);
     outline-offset: 2px;
 }
 
 /* PARI PROMINENZA: Accetta e Rifiuta hanno stessa dimensione e peso visivo */
-.gdpr-press-btn--accept {
+.scudo-btn--accept {
     background: var(--gdpr-accept);
     color: #fff;
 }
 
-.gdpr-press-btn--reject {
+.scudo-btn--reject {
     background: var(--gdpr-reject);
     color: #fff;
 }
 
-.gdpr-press-btn--customize {
+.scudo-btn--customize {
     background: transparent;
     color: var(--gdpr-text);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.gdpr-press-btn--save {
+.scudo-btn--save {
     background: var(--gdpr-accent);
     color: #fff;
 }
 
 /* X di chiusura */
-.gdpr-press-banner__close {
+.scudo-banner__close {
     position: absolute;
     top: 8px;
     right: 8px;
@@ -172,16 +172,16 @@
     justify-content: center;
 }
 
-.gdpr-press-banner__close:hover { opacity: 1; }
+.scudo-banner__close:hover { opacity: 1; }
 
-.gdpr-press-banner__close:focus-visible {
+.scudo-banner__close:focus-visible {
     outline: 3px solid var(--gdpr-accent);
     outline-offset: 2px;
 }
 
 /* ── Pannello Preferenze ─────────────────────────────────────────── */
 
-.gdpr-press-prefs {
+.scudo-prefs {
     position: fixed;
     inset: 0;
     z-index: 1000000;
@@ -190,16 +190,16 @@
     justify-content: center;
 }
 
-.gdpr-press-prefs[hidden] { display: none; }
+.scudo-prefs[hidden] { display: none; }
 
-.gdpr-press-prefs__overlay {
+.scudo-prefs__overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
     cursor: pointer;
 }
 
-.gdpr-press-prefs__panel {
+.scudo-prefs__panel {
     position: relative;
     background: #fff;
     color: #1a1a2e;
@@ -219,7 +219,7 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-.gdpr-press-prefs__header {
+.scudo-prefs__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -227,12 +227,12 @@
     border-bottom: 1px solid #e5e7eb;
 }
 
-.gdpr-press-prefs__title {
+.scudo-prefs__title {
     font-size: 18px;
     font-weight: 700;
 }
 
-.gdpr-press-prefs__close {
+.scudo-prefs__close {
     background: none;
     border: none;
     font-size: 24px;
@@ -247,14 +247,14 @@
     justify-content: center;
 }
 
-.gdpr-press-prefs__close:hover { color: #1a1a2e; }
+.scudo-prefs__close:hover { color: #1a1a2e; }
 
-.gdpr-press-prefs__close:focus-visible {
+.scudo-prefs__close:focus-visible {
     outline: 3px solid var(--gdpr-accent);
     outline-offset: 2px;
 }
 
-.gdpr-press-prefs__body {
+.scudo-prefs__body {
     padding: 16px 24px;
     overflow-y: auto;
     flex: 1;
@@ -262,21 +262,21 @@
 
 /* ── Categoria Cookie ────────────────────────────────────────────── */
 
-.gdpr-press-prefs__category {
+.scudo-prefs__category {
     padding: 16px 0;
     border-bottom: 1px solid #f3f4f6;
 }
 
-.gdpr-press-prefs__category:last-child { border-bottom: none; }
+.scudo-prefs__category:last-child { border-bottom: none; }
 
-.gdpr-press-prefs__cat-header {
+.scudo-prefs__cat-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
 }
 
-.gdpr-press-prefs__cat-label {
+.scudo-prefs__cat-label {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -286,7 +286,7 @@
 }
 
 /* Toggle switch */
-.gdpr-press-prefs__cat-label input[type="checkbox"] {
+.scudo-prefs__cat-label input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     width: 44px;
@@ -299,7 +299,7 @@
     flex-shrink: 0;
 }
 
-.gdpr-press-prefs__cat-label input[type="checkbox"]::after {
+.scudo-prefs__cat-label input[type="checkbox"]::after {
     content: '';
     position: absolute;
     top: 2px;
@@ -312,25 +312,25 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.gdpr-press-prefs__cat-label input[type="checkbox"]:checked {
+.scudo-prefs__cat-label input[type="checkbox"]:checked {
     background: var(--gdpr-accept);
 }
 
-.gdpr-press-prefs__cat-label input[type="checkbox"]:checked::after {
+.scudo-prefs__cat-label input[type="checkbox"]:checked::after {
     transform: translateX(20px);
 }
 
-.gdpr-press-prefs__cat-label input[type="checkbox"]:disabled {
+.scudo-prefs__cat-label input[type="checkbox"]:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-.gdpr-press-prefs__cat-label input[type="checkbox"]:focus-visible {
+.scudo-prefs__cat-label input[type="checkbox"]:focus-visible {
     outline: 3px solid var(--gdpr-accent);
     outline-offset: 2px;
 }
 
-.gdpr-press-prefs__badge {
+.scudo-prefs__badge {
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
@@ -339,7 +339,7 @@
     white-space: nowrap;
 }
 
-.gdpr-press-prefs__cat-desc {
+.scudo-prefs__cat-desc {
     font-size: 13px;
     color: #6b7280;
     margin-top: 6px;
@@ -348,7 +348,7 @@
 
 /* ── Footer Preferenze ───────────────────────────────────────────── */
 
-.gdpr-press-prefs__footer {
+.scudo-prefs__footer {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -358,14 +358,14 @@
     border-radius: 0 0 12px 12px;
 }
 
-.gdpr-press-prefs__footer .gdpr-press-btn {
+.scudo-prefs__footer .scudo-btn {
     flex: 1 1 auto;
     min-width: 120px;
 }
 
 /* ── Widget Riapertura ───────────────────────────────────────────── */
 
-.gdpr-press-reopen {
+.scudo-reopen {
     position: fixed;
     bottom: 20px;
     left: 20px;
@@ -384,21 +384,21 @@
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.gdpr-press-reopen:hover {
+.scudo-reopen:hover {
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-.gdpr-press-reopen:focus-visible {
+.scudo-reopen:focus-visible {
     outline: 3px solid var(--gdpr-accent);
     outline-offset: 2px;
 }
 
-.gdpr-press-reopen[hidden] { display: none; }
+.scudo-reopen[hidden] { display: none; }
 
 /* ── Placeholder per contenuti bloccati ──────────────────────────── */
 
-.gdpr-press-placeholder {
+.scudo-placeholder {
     background: linear-gradient(135deg, #f8f9fb 0%, #eef0f4 100%);
     border: 1px solid #d1d5db;
     border-radius: 12px;
@@ -410,34 +410,34 @@
     padding: 32px 24px;
 }
 
-.gdpr-press-placeholder__inner {
+.scudo-placeholder__inner {
     max-width: 420px;
 }
 
-.gdpr-press-placeholder__icon {
+.scudo-placeholder__icon {
     margin-bottom: 12px;
     opacity: 0.8;
 }
 
-.gdpr-press-placeholder__icon svg {
+.scudo-placeholder__icon svg {
     display: inline-block;
 }
 
-.gdpr-press-placeholder__title {
+.scudo-placeholder__title {
     font-size: 17px;
     font-weight: 700;
     color: #1f2937;
     margin-bottom: 8px;
 }
 
-.gdpr-press-placeholder__text {
+.scudo-placeholder__text {
     font-size: 14px;
     color: #4b5563;
     margin-bottom: 12px;
     line-height: 1.6;
 }
 
-.gdpr-press-placeholder__privacy {
+.scudo-placeholder__privacy {
     font-size: 12px;
     color: #6b7280;
     margin-bottom: 20px;
@@ -447,7 +447,7 @@
     border-radius: 8px;
 }
 
-.gdpr-press-placeholder__btn {
+.scudo-placeholder__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -464,10 +464,10 @@
     min-height: 44px;
 }
 
-.gdpr-press-placeholder__btn:hover { opacity: 0.9; }
-.gdpr-press-placeholder__btn:active { transform: scale(0.97); }
+.scudo-placeholder__btn:hover { opacity: 0.9; }
+.scudo-placeholder__btn:active { transform: scale(0.97); }
 
-.gdpr-press-placeholder__btn:focus-visible {
+.scudo-placeholder__btn:focus-visible {
     outline: 3px solid var(--gdpr-accent);
     outline-offset: 2px;
 }
@@ -475,40 +475,40 @@
 /* ── Responsive ──────────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
-    .gdpr-press-banner__inner {
+    .scudo-banner__inner {
         flex-direction: column;
         padding: 16px;
         padding-right: 40px;
     }
 
-    .gdpr-press-banner__actions {
+    .scudo-banner__actions {
         width: 100%;
     }
 
-    .gdpr-press-banner__actions .gdpr-press-btn {
+    .scudo-banner__actions .scudo-btn {
         flex: 1 1 auto;
         min-width: 0;
         padding: 10px 12px;
         font-size: 13px;
     }
 
-    .gdpr-press-prefs__panel {
+    .scudo-prefs__panel {
         width: 100%;
         max-height: 100vh;
         border-radius: 12px 12px 0 0;
         margin-top: auto;
     }
 
-    .gdpr-press-prefs {
+    .scudo-prefs {
         align-items: flex-end;
     }
 
-    .gdpr-press-prefs__cat-desc {
+    .scudo-prefs__cat-desc {
         padding-left: 0;
         margin-top: 8px;
     }
 
-    .gdpr-press-prefs__footer {
+    .scudo-prefs__footer {
         flex-direction: column;
     }
 }
@@ -516,12 +516,12 @@
 /* ── Riduce motion per accessibilità ─────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-    .gdpr-press-banner,
-    .gdpr-press-prefs__panel,
-    .gdpr-press-btn,
-    .gdpr-press-reopen,
-    .gdpr-press-prefs__cat-label input[type="checkbox"],
-    .gdpr-press-prefs__cat-label input[type="checkbox"]::after {
+    .scudo-banner,
+    .scudo-prefs__panel,
+    .scudo-btn,
+    .scudo-reopen,
+    .scudo-prefs__cat-label input[type="checkbox"],
+    .scudo-prefs__cat-label input[type="checkbox"]::after {
         transition: none;
         animation: none;
     }
@@ -530,9 +530,9 @@
 /* ── Print: nascondi tutto ───────────────────────────────────────── */
 
 @media print {
-    .gdpr-press-banner,
-    .gdpr-press-prefs,
-    .gdpr-press-reopen {
+    .scudo-banner,
+    .scudo-prefs,
+    .scudo-reopen {
         display: none !important;
     }
 }
