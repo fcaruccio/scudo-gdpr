@@ -151,7 +151,7 @@ class Scudo_Rights {
     /* ── AJAX: submit richiesta ──────────────────────────────────── */
 
     public static function ajax_submit(): void {
-        // Verifica token anti-CSRF (valido per la giornata corrente, non dipende dalla sessione)
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- uses HMAC token instead of nonce (public form, no user session)
         $token = sanitize_text_field( wp_unslash( $_POST['scudo_token'] ?? '' ) );
         $expected_today = hash_hmac( 'sha256', 'scudo_rights_' . gmdate( 'Y-m-d' ), wp_salt( 'nonce' ) );
         $expected_yesterday = hash_hmac( 'sha256', 'scudo_rights_' . gmdate( 'Y-m-d', time() - DAY_IN_SECONDS ), wp_salt( 'nonce' ) );
@@ -161,14 +161,17 @@ class Scudo_Rights {
         }
 
         // Honeypot check
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing
         if ( ! empty( $_POST['scudo_hp'] ) ) {
             wp_send_json_error( __( 'Invio non riuscito. Riprova.', 'scudo' ), 400 );
         }
 
+        // phpcs:disable WordPress.Security.NonceVerification.Missing -- HMAC token verified above
         $type    = sanitize_text_field( wp_unslash( $_POST['request_type'] ?? '' ) );
         $name    = sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) );
         $email   = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
         $message = sanitize_textarea_field( wp_unslash( $_POST['message'] ?? '' ) );
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
 
         $valid_types = [ 'access', 'rectification', 'erasure', 'restriction', 'portability', 'objection' ];
 
