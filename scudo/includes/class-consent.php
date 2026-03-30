@@ -225,7 +225,11 @@ class Scudo_Consent {
         global $wpdb;
         $table = $wpdb->prefix . self::TABLE;
 
-        $rows = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY created_at DESC", ARRAY_A );
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+        $rows = $wpdb->get_results(
+            "SELECT id, consent_id, ip_hash, user_agent, choices, policy_version, action, created_at FROM {$table} ORDER BY created_at DESC",
+            ARRAY_A
+        );
 
         $filename = 'scudo-consent-log-' . gmdate( 'Y-m-d' ) . '.csv';
 
