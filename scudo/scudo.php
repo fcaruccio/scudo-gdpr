@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: Scudo
- * Plugin URI:  https://github.com/fcaruccio/GDPR-wordpress
+ * Plugin Name: Scudo Cookie & Privacy
+ * Plugin URI:  https://github.com/fcaruccio/scudo-gdpr
  * Description: Compliance GDPR leggera. Davvero. Cookie banner, blocco script, consenso granulare, Google Consent Mode v2, privacy policy wizard — tutto in 12KB.
  * Version:     1.0.0
- * Author:      Francesco Caruccio
- * Author URI:  https://francescocaruccio.it
+ * Author:      Velocia
+ * Author URI:  https://velocia.it
  * License:     GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: scudo
+ * Text Domain: scudo-cookie-privacy
  * Domain Path: /languages
  * Requires at least: 5.8
  * Requires PHP: 7.4
@@ -96,21 +96,21 @@ function scudo_defaults(): array {
     return [
         // Banner
         'banner_position'       => 'bottom',
-        'banner_title'          => __( 'Questo sito utilizza i cookie', 'scudo' ),
-        'banner_text'           => __( 'Utilizziamo cookie tecnici e, previo tuo consenso, cookie di profilazione e di terze parti per migliorare la tua esperienza di navigazione.', 'scudo' ),
-        'accept_text'           => __( 'Accetta tutti', 'scudo' ),
-        'reject_text'           => __( 'Rifiuta tutti', 'scudo' ),
-        'customize_text'        => __( 'Personalizza', 'scudo' ),
-        'save_text'             => __( 'Salva preferenze', 'scudo' ),
+        'banner_title'          => __( 'Questo sito utilizza i cookie', 'scudo-cookie-privacy' ),
+        'banner_text'           => __( 'Utilizziamo cookie tecnici e, previo tuo consenso, cookie di profilazione e di terze parti per migliorare la tua esperienza di navigazione.', 'scudo-cookie-privacy' ),
+        'accept_text'           => __( 'Accetta tutti', 'scudo-cookie-privacy' ),
+        'reject_text'           => __( 'Rifiuta tutti', 'scudo-cookie-privacy' ),
+        'customize_text'        => __( 'Personalizza', 'scudo-cookie-privacy' ),
+        'save_text'             => __( 'Salva preferenze', 'scudo-cookie-privacy' ),
         'policy_page'           => 0,
 
         // Categorie cookie
-        'cat_analytics_label'   => __( 'Analitici', 'scudo' ),
-        'cat_analytics_desc'    => __( 'Cookie utilizzati per raccogliere statistiche anonime sulle visite al sito.', 'scudo' ),
-        'cat_marketing_label'   => __( 'Marketing', 'scudo' ),
-        'cat_marketing_desc'    => __( 'Cookie utilizzati per mostrarti annunci pertinenti ai tuoi interessi.', 'scudo' ),
-        'cat_preferences_label' => __( 'Preferenze', 'scudo' ),
-        'cat_preferences_desc'  => __( 'Cookie che memorizzano le tue preferenze di navigazione.', 'scudo' ),
+        'cat_analytics_label'   => __( 'Analitici', 'scudo-cookie-privacy' ),
+        'cat_analytics_desc'    => __( 'Cookie utilizzati per raccogliere statistiche anonime sulle visite al sito.', 'scudo-cookie-privacy' ),
+        'cat_marketing_label'   => __( 'Marketing', 'scudo-cookie-privacy' ),
+        'cat_marketing_desc'    => __( 'Cookie utilizzati per mostrarti annunci pertinenti ai tuoi interessi.', 'scudo-cookie-privacy' ),
+        'cat_preferences_label' => __( 'Preferenze', 'scudo-cookie-privacy' ),
+        'cat_preferences_desc'  => __( 'Cookie che memorizzano le tue preferenze di navigazione.', 'scudo-cookie-privacy' ),
 
         // Consenso
         'consent_expiry'        => 180, // giorni (6 mesi)

@@ -302,23 +302,23 @@ class Scudo_Scanner {
         // Raggruppa per categoria
         $categories = [
             'necessary'   => [
-                'label' => __( 'Cookie necessari', 'scudo' ),
-                'desc'  => __( 'Questi cookie sono indispensabili per il funzionamento del sito e non possono essere disattivati. Vengono impostati in risposta ad azioni da te effettuate, come la gestione delle preferenze sulla privacy, il login o la compilazione di moduli.', 'scudo' ),
+                'label' => __( 'Cookie necessari', 'scudo-cookie-privacy' ),
+                'desc'  => __( 'Questi cookie sono indispensabili per il funzionamento del sito e non possono essere disattivati. Vengono impostati in risposta ad azioni da te effettuate, come la gestione delle preferenze sulla privacy, il login o la compilazione di moduli.', 'scudo-cookie-privacy' ),
                 'items' => [],
             ],
             'analytics'   => [
-                'label' => __( 'Cookie analitici', 'scudo' ),
-                'desc'  => __( 'Questi cookie ci permettono di contare le visite e le fonti di traffico per misurare e migliorare le prestazioni del nostro sito. Ci aiutano a capire quali pagine sono più o meno popolari e a vedere come i visitatori si muovono nel sito. Tutte le informazioni raccolte da questi cookie sono aggregate e quindi anonime.', 'scudo' ),
+                'label' => __( 'Cookie analitici', 'scudo-cookie-privacy' ),
+                'desc'  => __( 'Questi cookie ci permettono di contare le visite e le fonti di traffico per misurare e migliorare le prestazioni del nostro sito. Ci aiutano a capire quali pagine sono più o meno popolari e a vedere come i visitatori si muovono nel sito. Tutte le informazioni raccolte da questi cookie sono aggregate e quindi anonime.', 'scudo-cookie-privacy' ),
                 'items' => [],
             ],
             'marketing'   => [
-                'label' => __( 'Cookie di marketing', 'scudo' ),
-                'desc'  => __( 'Questi cookie possono essere impostati attraverso il nostro sito da parte dei nostri partner pubblicitari. Possono essere utilizzati da queste aziende per costruire un profilo dei tuoi interessi e mostrarti annunci pertinenti su altri siti. Non memorizzano direttamente informazioni personali, ma si basano sull\'identificazione univoca del tuo browser e dispositivo.', 'scudo' ),
+                'label' => __( 'Cookie di marketing', 'scudo-cookie-privacy' ),
+                'desc'  => __( 'Questi cookie possono essere impostati attraverso il nostro sito da parte dei nostri partner pubblicitari. Possono essere utilizzati da queste aziende per costruire un profilo dei tuoi interessi e mostrarti annunci pertinenti su altri siti. Non memorizzano direttamente informazioni personali, ma si basano sull\'identificazione univoca del tuo browser e dispositivo.', 'scudo-cookie-privacy' ),
                 'items' => [],
             ],
             'preferences' => [
-                'label' => __( 'Cookie di preferenza', 'scudo' ),
-                'desc'  => __( 'Questi cookie permettono al sito di ricordare le scelte che hai fatto (come la lingua o la regione) e di fornire funzionalità avanzate e personalizzate.', 'scudo' ),
+                'label' => __( 'Cookie di preferenza', 'scudo-cookie-privacy' ),
+                'desc'  => __( 'Questi cookie permettono al sito di ricordare le scelte che hai fatto (come la lingua o la regione) e di fornire funzionalità avanzate e personalizzate.', 'scudo-cookie-privacy' ),
                 'items' => [],
             ],
         ];
@@ -346,10 +346,10 @@ class Scudo_Scanner {
                 $html .= '<div class="scudo-cookie-policy__table-wrap">';
                 $html .= '<table class="scudo-cookie-policy__table">';
                 $html .= '<thead><tr>'
-                       . '<th>' . esc_html__( 'Cookie', 'scudo' ) . '</th>'
-                       . '<th>' . esc_html__( 'Fornitore', 'scudo' ) . '</th>'
-                       . '<th>' . esc_html__( 'Durata', 'scudo' ) . '</th>'
-                       . '<th>' . esc_html__( 'Descrizione', 'scudo' ) . '</th>'
+                       . '<th>' . esc_html__( 'Cookie', 'scudo-cookie-privacy' ) . '</th>'
+                       . '<th>' . esc_html__( 'Fornitore', 'scudo-cookie-privacy' ) . '</th>'
+                       . '<th>' . esc_html__( 'Durata', 'scudo-cookie-privacy' ) . '</th>'
+                       . '<th>' . esc_html__( 'Descrizione', 'scudo-cookie-privacy' ) . '</th>'
                        . '</tr></thead><tbody>';
 
                 foreach ( $cat_data['items'] as $cookie ) {
@@ -363,7 +363,7 @@ class Scudo_Scanner {
 
                 $html .= '</tbody></table></div>';
             } else {
-                $html .= '<p><em>' . esc_html__( 'Nessun cookie in questa categoria.', 'scudo' ) . '</em></p>';
+                $html .= '<p><em>' . esc_html__( 'Nessun cookie in questa categoria.', 'scudo-cookie-privacy' ) . '</em></p>';
             }
 
             $html .= '</div>';
@@ -371,24 +371,25 @@ class Scudo_Scanner {
 
         // Data ultimo aggiornamento
         $html .= '<p class="scudo-cookie-policy__updated"><small>'
-               . esc_html__( 'Ultimo aggiornamento:', 'scudo' ) . ' '
+               . esc_html__( 'Ultimo aggiornamento:', 'scudo-cookie-privacy' ) . ' '
                . esc_html( get_option( 'scudo_policy_version', gmdate( 'Y-m-d' ) ) )
                . '</small></p>';
 
         $html .= '</div>';
 
-        // Stili inline minimali per la tabella (non dipende dal foglio di stile del banner)
-        $html .= '<style>'
-               . '.scudo-cookie-policy__section{margin-bottom:32px}'
-               . '.scudo-cookie-policy__heading{font-size:1.2em;margin-bottom:8px}'
-               . '.scudo-cookie-policy__desc{color:#555;margin-bottom:16px;font-size:.95em;line-height:1.6}'
-               . '.scudo-cookie-policy__table-wrap{overflow-x:auto}'
-               . '.scudo-cookie-policy__table{width:100%;border-collapse:collapse;font-size:.9em}'
-               . '.scudo-cookie-policy__table th,.scudo-cookie-policy__table td{padding:10px 12px;border:1px solid #e5e7eb;text-align:left;vertical-align:top}'
-               . '.scudo-cookie-policy__table th{background:#f9fafb;font-weight:600;white-space:nowrap}'
-               . '.scudo-cookie-policy__table code{font-size:.85em;background:#f3f4f6;padding:2px 6px;border-radius:3px}'
-               . '.scudo-cookie-policy__updated{margin-top:24px;color:#888}'
-               . '</style>';
+        // Enqueue inline styles for the cookie table.
+        $cookie_table_css = '.scudo-cookie-policy__section{margin-bottom:32px}'
+            . '.scudo-cookie-policy__heading{font-size:1.2em;margin-bottom:8px}'
+            . '.scudo-cookie-policy__desc{color:#555;margin-bottom:16px;font-size:.95em;line-height:1.6}'
+            . '.scudo-cookie-policy__table-wrap{overflow-x:auto}'
+            . '.scudo-cookie-policy__table{width:100%;border-collapse:collapse;font-size:.9em}'
+            . '.scudo-cookie-policy__table th,.scudo-cookie-policy__table td{padding:10px 12px;border:1px solid #e5e7eb;text-align:left;vertical-align:top}'
+            . '.scudo-cookie-policy__table th{background:#f9fafb;font-weight:600;white-space:nowrap}'
+            . '.scudo-cookie-policy__table code{font-size:.85em;background:#f3f4f6;padding:2px 6px;border-radius:3px}'
+            . '.scudo-cookie-policy__updated{margin-top:24px;color:#888}';
+        wp_register_style( 'scudo-cookie-table', false, array(), SCUDO_VERSION );
+        wp_enqueue_style( 'scudo-cookie-table' );
+        wp_add_inline_style( 'scudo-cookie-table', $cookie_table_css );
 
         return $html;
     }

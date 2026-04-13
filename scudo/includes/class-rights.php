@@ -55,12 +55,12 @@ class Scudo_Rights {
         $token = hash_hmac( 'sha256', 'scudo_rights_' . gmdate( 'Y-m-d' ), wp_salt( 'nonce' ) );
 
         $types = [
-            'access'       => __( 'Accesso ai miei dati (Art. 15)', 'scudo' ),
-            'rectification' => __( 'Rettifica dei miei dati (Art. 16)', 'scudo' ),
-            'erasure'      => __( 'Cancellazione dei miei dati (Art. 17)', 'scudo' ),
-            'restriction'  => __( 'Limitazione del trattamento (Art. 18)', 'scudo' ),
-            'portability'  => __( 'Portabilità dei miei dati (Art. 20)', 'scudo' ),
-            'objection'    => __( 'Opposizione al trattamento (Art. 21)', 'scudo' ),
+            'access'       => __( 'Accesso ai miei dati (Art. 15)', 'scudo-cookie-privacy' ),
+            'rectification' => __( 'Rettifica dei miei dati (Art. 16)', 'scudo-cookie-privacy' ),
+            'erasure'      => __( 'Cancellazione dei miei dati (Art. 17)', 'scudo-cookie-privacy' ),
+            'restriction'  => __( 'Limitazione del trattamento (Art. 18)', 'scudo-cookie-privacy' ),
+            'portability'  => __( 'Portabilità dei miei dati (Art. 20)', 'scudo-cookie-privacy' ),
+            'objection'    => __( 'Opposizione al trattamento (Art. 21)', 'scudo-cookie-privacy' ),
         ];
 
         $html = '<div class="scudo-rights-form" id="scudo-rights-form">';
@@ -68,9 +68,9 @@ class Scudo_Rights {
 
         // Tipo di richiesta
         $html .= '<div style="margin-bottom:16px;">';
-        $html .= '<label for="gdpr_right_type" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Tipo di richiesta *', 'scudo' ) . '</label>';
+        $html .= '<label for="gdpr_right_type" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Tipo di richiesta *', 'scudo-cookie-privacy' ) . '</label>';
         $html .= '<select name="request_type" id="gdpr_right_type" required style="width:100%;max-width:500px;padding:8px;">';
-        $html .= '<option value="">' . esc_html__( '— Seleziona —', 'scudo' ) . '</option>';
+        $html .= '<option value="">' . esc_html__( '— Seleziona —', 'scudo-cookie-privacy' ) . '</option>';
         foreach ( $types as $val => $label ) {
             $html .= '<option value="' . esc_attr( $val ) . '">' . esc_html( $label ) . '</option>';
         }
@@ -78,20 +78,20 @@ class Scudo_Rights {
 
         // Nome
         $html .= '<div style="margin-bottom:16px;">';
-        $html .= '<label for="gdpr_right_name" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Nome e Cognome *', 'scudo' ) . '</label>';
+        $html .= '<label for="gdpr_right_name" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Nome e Cognome *', 'scudo-cookie-privacy' ) . '</label>';
         $html .= '<input type="text" name="name" id="gdpr_right_name" required style="width:100%;max-width:500px;padding:8px;">';
         $html .= '</div>';
 
         // Email
         $html .= '<div style="margin-bottom:16px;">';
-        $html .= '<label for="gdpr_right_email" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Email *', 'scudo' ) . '</label>';
+        $html .= '<label for="gdpr_right_email" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Email *', 'scudo-cookie-privacy' ) . '</label>';
         $html .= '<input type="email" name="email" id="gdpr_right_email" required style="width:100%;max-width:500px;padding:8px;">';
-        $html .= '<p style="font-size:0.85em;color:#666;margin-top:4px;">' . esc_html__( 'Utilizzeremo questo indirizzo per rispondere alla tua richiesta e per verificare la tua identità.', 'scudo' ) . '</p>';
+        $html .= '<p style="font-size:0.85em;color:#666;margin-top:4px;">' . esc_html__( 'Utilizzeremo questo indirizzo per rispondere alla tua richiesta e per verificare la tua identità.', 'scudo-cookie-privacy' ) . '</p>';
         $html .= '</div>';
 
         // Messaggio
         $html .= '<div style="margin-bottom:16px;">';
-        $html .= '<label for="gdpr_right_message" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Dettagli della richiesta', 'scudo' ) . '</label>';
+        $html .= '<label for="gdpr_right_message" style="display:block;font-weight:600;margin-bottom:6px;">' . esc_html__( 'Dettagli della richiesta', 'scudo-cookie-privacy' ) . '</label>';
         $html .= '<textarea name="message" id="gdpr_right_message" rows="4" style="width:100%;max-width:500px;padding:8px;"></textarea>';
         $html .= '</div>';
 
@@ -101,49 +101,59 @@ class Scudo_Rights {
         $html .= '<input type="hidden" name="scudo_token" value="' . esc_attr( $token ) . '">';
 
         $html .= '<button type="submit" style="background:#1a1a2e;color:#fff;border:none;border-radius:6px;padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;min-height:44px;">';
-        $html .= esc_html__( 'Invia richiesta', 'scudo' );
+        $html .= esc_html__( 'Invia richiesta', 'scudo-cookie-privacy' );
         $html .= '</button>';
 
         $html .= '<div id="gdpr-rights-status" style="margin-top:16px;"></div>';
 
         $html .= '</form></div>';
 
-        // JS inline per submit AJAX
-        $html .= '<script>
-        (function(){
-            var form = document.getElementById("gdpr-rights-form");
-            if(!form)return;
-            form.addEventListener("submit",function(e){
-                e.preventDefault();
-                var status = document.getElementById("gdpr-rights-status");
-                var btn = form.querySelector("button[type=submit]");
-                btn.disabled = true;
-                status.textContent = "' . esc_js( __( 'Invio in corso...', 'scudo' ) ) . '";
-                var fd = new FormData(form);
-                fd.append("action","scudo_submit_rights_request");
-                fetch("' . esc_url( admin_url( 'admin-ajax.php' ) ) . '",{method:"POST",body:fd,credentials:"same-origin"})
-                    .then(function(r){
-                        var ct = r.headers.get("content-type") || "";
-                        if(ct.indexOf("application/json") !== -1) return r.json();
-                        return r.text().then(function(t){ return {success:false,data:"' . esc_js( __( 'Sessione scaduta. Ricarica la pagina e riprova.', 'scudo' ) ) . '"}; });
-                    })
-                    .then(function(data){
-                        btn.disabled = false;
-                        if(data.success){
-                            status.innerHTML = "<p style=\"color:#0f9b58;font-weight:600;\">" + data.data.message + "</p>";
-                            form.reset();
-                        } else {
-                            var msg = typeof data.data === "string" ? data.data : (data.data && data.data.message ? data.data.message : "' . esc_js( __( 'Errore sconosciuto. Ricarica la pagina e riprova.', 'scudo' ) ) . '");
-                            status.innerHTML = "<p style=\"color:#e94560;\">" + msg + "</p>";
-                        }
-                    })
-                    .catch(function(){
-                        btn.disabled = false;
-                        status.innerHTML = "<p style=\"color:#e94560;\">' . esc_js( __( 'Errore di rete. Riprova.', 'scudo' ) ) . '</p>";
-                    });
-            });
-        })();
-        </script>';
+        // Enqueue inline JS for AJAX form submission.
+        wp_register_script( 'scudo-rights', '', array(), SCUDO_VERSION, true );
+        wp_enqueue_script( 'scudo-rights' );
+        wp_localize_script( 'scudo-rights', 'scudoRights', array(
+            'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+            'i18n'     => array(
+                'sending'        => __( 'Invio in corso...', 'scudo-cookie-privacy' ),
+                'sessionExpired' => __( 'Sessione scaduta. Ricarica la pagina e riprova.', 'scudo-cookie-privacy' ),
+                'unknownError'   => __( 'Errore sconosciuto. Ricarica la pagina e riprova.', 'scudo-cookie-privacy' ),
+                'networkError'   => __( 'Errore di rete. Riprova.', 'scudo-cookie-privacy' ),
+            ),
+        ) );
+        $rights_js = '(function(){' .
+            'var form=document.getElementById("gdpr-rights-form");' .
+            'if(!form)return;' .
+            'form.addEventListener("submit",function(e){' .
+                'e.preventDefault();' .
+                'var status=document.getElementById("gdpr-rights-status");' .
+                'var btn=form.querySelector("button[type=submit]");' .
+                'btn.disabled=true;' .
+                'status.textContent=scudoRights.i18n.sending;' .
+                'var fd=new FormData(form);' .
+                'fd.append("action","scudo_submit_rights_request");' .
+                'fetch(scudoRights.ajaxUrl,{method:"POST",body:fd,credentials:"same-origin"})' .
+                    '.then(function(r){' .
+                        'var ct=r.headers.get("content-type")||"";' .
+                        'if(ct.indexOf("application/json")!==-1)return r.json();' .
+                        'return r.text().then(function(t){return{success:false,data:scudoRights.i18n.sessionExpired};});' .
+                    '})' .
+                    '.then(function(data){' .
+                        'btn.disabled=false;' .
+                        'if(data.success){' .
+                            'status.innerHTML="<p style=\"color:#0f9b58;font-weight:600;\">"+data.data.message+"</p>";' .
+                            'form.reset();' .
+                        '}else{' .
+                            'var msg=typeof data.data==="string"?data.data:(data.data&&data.data.message?data.data.message:scudoRights.i18n.unknownError);' .
+                            'status.innerHTML="<p style=\"color:#e94560;\">"+msg+"</p>";' .
+                        '}' .
+                    '})' .
+                    '.catch(function(){' .
+                        'btn.disabled=false;' .
+                        'status.innerHTML="<p style=\"color:#e94560;\">"+scudoRights.i18n.networkError+"</p>";' .
+                    '});' .
+            '});' .
+        '})();';
+        wp_add_inline_script( 'scudo-rights', $rights_js );
 
         return $html;
     }
@@ -157,13 +167,13 @@ class Scudo_Rights {
         $expected_yesterday = hash_hmac( 'sha256', 'scudo_rights_' . gmdate( 'Y-m-d', time() - DAY_IN_SECONDS ), wp_salt( 'nonce' ) );
 
         if ( ! hash_equals( $expected_today, $token ) && ! hash_equals( $expected_yesterday, $token ) ) {
-            wp_send_json_error( __( 'Token scaduto. Ricarica la pagina e riprova.', 'scudo' ), 403 );
+            wp_send_json_error( __( 'Token scaduto. Ricarica la pagina e riprova.', 'scudo-cookie-privacy' ), 403 );
         }
 
         // Honeypot check
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
         if ( ! empty( $_POST['scudo_hp'] ) ) {
-            wp_send_json_error( __( 'Invio non riuscito. Riprova.', 'scudo' ), 400 );
+            wp_send_json_error( __( 'Invio non riuscito. Riprova.', 'scudo-cookie-privacy' ), 400 );
         }
 
         // phpcs:disable WordPress.Security.NonceVerification.Missing -- HMAC token verified above
@@ -176,7 +186,7 @@ class Scudo_Rights {
         $valid_types = [ 'access', 'rectification', 'erasure', 'restriction', 'portability', 'objection' ];
 
         if ( ! in_array( $type, $valid_types, true ) || empty( $name ) || ! is_email( $email ) ) {
-            wp_send_json_error( __( 'Compila tutti i campi obbligatori.', 'scudo' ) );
+            wp_send_json_error( __( 'Compila tutti i campi obbligatori.', 'scudo-cookie-privacy' ) );
         }
 
         // Salva nel DB
@@ -206,7 +216,7 @@ class Scudo_Rights {
         self::notify_controller( $type, $name, $email, $message );
 
         wp_send_json_success( [
-            'message' => __( 'La tua richiesta è stata inviata con successo. Ti risponderemo entro 30 giorni come previsto dal GDPR.', 'scudo' ),
+            'message' => __( 'La tua richiesta è stata inviata con successo. Ti risponderemo entro 30 giorni come previsto dal GDPR.', 'scudo-cookie-privacy' ),
         ] );
     }
 
@@ -217,27 +227,27 @@ class Scudo_Rights {
         $site_name   = get_bloginfo( 'name' );
 
         $type_labels = [
-            'access'        => __( 'Accesso ai dati', 'scudo' ),
-            'rectification' => __( 'Rettifica dei dati', 'scudo' ),
-            'erasure'       => __( 'Cancellazione dei dati', 'scudo' ),
-            'restriction'   => __( 'Limitazione del trattamento', 'scudo' ),
-            'portability'   => __( 'Portabilità dei dati', 'scudo' ),
-            'objection'     => __( 'Opposizione al trattamento', 'scudo' ),
+            'access'        => __( 'Accesso ai dati', 'scudo-cookie-privacy' ),
+            'rectification' => __( 'Rettifica dei dati', 'scudo-cookie-privacy' ),
+            'erasure'       => __( 'Cancellazione dei dati', 'scudo-cookie-privacy' ),
+            'restriction'   => __( 'Limitazione del trattamento', 'scudo-cookie-privacy' ),
+            'portability'   => __( 'Portabilità dei dati', 'scudo-cookie-privacy' ),
+            'objection'     => __( 'Opposizione al trattamento', 'scudo-cookie-privacy' ),
         ];
 
         $type_label = $type_labels[ $type ] ?? $type;
 
-        $subject = sprintf( '[%s] %s — %s', $site_name, __( 'Richiesta GDPR', 'scudo' ), $type_label );
+        $subject = sprintf( '[%s] %s — %s', $site_name, __( 'Richiesta GDPR', 'scudo-cookie-privacy' ), $type_label );
 
         // translators: %s is the website name.
-        $body  = sprintf( __( 'Nuova richiesta di esercizio diritti GDPR su %s', 'scudo' ), $site_name ) . "\n\n";
-        $body .= __( 'Tipo:', 'scudo' ) . ' ' . $type_label . "\n";
-        $body .= __( 'Nome:', 'scudo' ) . ' ' . $name . "\n";
-        $body .= __( 'Email:', 'scudo' ) . ' ' . $email . "\n";
+        $body  = sprintf( __( 'Nuova richiesta di esercizio diritti GDPR su %s', 'scudo-cookie-privacy' ), $site_name ) . "\n\n";
+        $body .= __( 'Tipo:', 'scudo-cookie-privacy' ) . ' ' . $type_label . "\n";
+        $body .= __( 'Nome:', 'scudo-cookie-privacy' ) . ' ' . $name . "\n";
+        $body .= __( 'Email:', 'scudo-cookie-privacy' ) . ' ' . $email . "\n";
         if ( $message ) {
-            $body .= __( 'Messaggio:', 'scudo' ) . "\n" . $message . "\n";
+            $body .= __( 'Messaggio:', 'scudo-cookie-privacy' ) . "\n" . $message . "\n";
         }
-        $body .= "\n" . __( 'Ricorda: il GDPR prevede una risposta entro 30 giorni dalla richiesta.', 'scudo' );
+        $body .= "\n" . __( 'Ricorda: il GDPR prevede una risposta entro 30 giorni dalla richiesta.', 'scudo-cookie-privacy' );
         $body .= "\n\n" . admin_url( 'options-general.php?page=scudo' );
 
         wp_mail( $admin_email, $subject, $body );
@@ -247,7 +257,7 @@ class Scudo_Rights {
 
     public static function register_exporter( array $exporters ): array {
         $exporters['scudo-consent'] = [
-            'exporter_friendly_name' => __( 'Scudo — Consensi', 'scudo' ),
+            'exporter_friendly_name' => __( 'Scudo — Consensi', 'scudo-cookie-privacy' ),
             'callback'               => [ __CLASS__, 'export_consent_data' ],
         ];
         return $exporters;
@@ -268,7 +278,7 @@ class Scudo_Rights {
 
     public static function register_eraser( array $erasers ): array {
         $erasers['scudo-consent'] = [
-            'eraser_friendly_name' => __( 'Scudo — Consensi', 'scudo' ),
+            'eraser_friendly_name' => __( 'Scudo — Consensi', 'scudo-cookie-privacy' ),
             'callback'             => [ __CLASS__, 'erase_consent_data' ],
         ];
         return $erasers;

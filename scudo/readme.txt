@@ -1,4 +1,4 @@
-=== Scudo ===
+=== Scudo Cookie & Privacy ===
 Contributors: francescocaruccio
 Tags: gdpr, cookie, privacy, consent, cookie banner
 Requires at least: 5.8
@@ -12,11 +12,11 @@ Lightweight GDPR compliance. For real. Cookie banner, script blocking, granular 
 
 == Description ==
 
-**Scudo** makes your WordPress site GDPR compliant in 2 minutes.
+**Scudo Cookie & Privacy** makes your WordPress site GDPR compliant in 2 minutes.
 
-A guided wizard asks who you are, what your site does, and which services you use. Scudo does the rest: creates Cookie Policy, Privacy Policy and Data Rights pages, activates the cookie banner and blocks all tracking scripts before consent.
+A guided wizard asks who you are, what your site does, and which services you use. Scudo Cookie & Privacy does the rest: creates Cookie Policy, Privacy Policy and Data Rights pages, activates the cookie banner and blocks all tracking scripts before consent.
 
-= Why Scudo? =
+= Why Scudo Cookie & Privacy? =
 
 * **12KB total** CSS + JS — the lightest cookie banner on the market
 * **Zero dependencies** — vanilla JavaScript, no jQuery, no external libraries
@@ -55,7 +55,7 @@ A guided wizard asks who you are, what your site does, and which services you us
 
 = Regulatory Compliance =
 
-Scudo is designed to comply with:
+Scudo Cookie & Privacy is designed to comply with:
 
 * **GDPR** — Regulation (EU) 2016/679
 * **ePrivacy Directive** — 2002/58/EC
@@ -76,17 +76,17 @@ Scudo is designed to comply with:
 1. Upload the `scudo` folder to `/wp-content/plugins/`
 2. Activate the plugin through the "Plugins" menu
 3. Follow the guided setup wizard (appears automatically)
-4. Alternatively, go to Settings → Scudo for manual configuration
+4. Alternatively, go to Settings → Scudo Cookie & Privacy for manual configuration
 
 = Quick Setup (Wizard) =
 
 The wizard guides you in 5 steps:
 
 1. **Who you are** — Your business details (pre-filled from site settings)
-2. **What your site does** — Scudo auto-detects installed plugins
-3. **Which services you use** — Scudo scans your site and pre-selects detected ones
+2. **What your site does** — Scudo Cookie & Privacy auto-detects installed plugins
+3. **Which services you use** — Scudo Cookie & Privacy scans your site and pre-selects detected ones
 4. **Choose the theme** — Dark or light
-5. **Activate Scudo** — Automatically creates Cookie Policy, Privacy Policy, and Rights pages
+5. **Activate Scudo Cookie & Privacy** — Automatically creates Cookie Policy, Privacy Policy, and Rights pages
 
 = Available Shortcodes =
 
@@ -96,9 +96,9 @@ The wizard guides you in 5 steps:
 
 == Frequently Asked Questions ==
 
-= Does Scudo slow down my site? =
+= Does Scudo Cookie & Privacy slow down my site? =
 
-No. Scudo weighs 12KB total (CSS + JS) with no external dependencies. If the visitor has already given consent, the output buffer doesn't even activate — zero overhead.
+No. Scudo Cookie & Privacy weighs 12KB total (CSS + JS) with no external dependencies. If the visitor has already given consent, the output buffer doesn't even activate — zero overhead.
 
 = Does it work with caching plugins? =
 
@@ -106,11 +106,11 @@ Yes. Consent is managed entirely client-side (cookie + JavaScript). The output b
 
 = Do I need to configure Google Consent Mode manually? =
 
-No. Enable the option in settings and Scudo handles everything: sets defaults to "denied" and updates them after consent.
+No. Enable the option in settings and Scudo Cookie & Privacy handles everything: sets defaults to "denied" and updates them after consent.
 
-= Can I use Scudo with WPML or Polylang? =
+= Can I use Scudo Cookie & Privacy with WPML or Polylang? =
 
-Yes. Scudo automatically registers all banner strings for translation.
+Yes. Scudo Cookie & Privacy automatically registers all banner strings for translation.
 
 = Are Google Fonts blocked? =
 
@@ -118,7 +118,7 @@ Yes. You can also download them locally with one click from the Tools tab — so
 
 = Is the plugin compliant with the Italian Garante Privacy? =
 
-Scudo was designed following the Garante's June 10, 2021 guidelines. Equal-prominence buttons, X = rejection, no dark patterns, 6-month expiry, consent logging.
+Scudo Cookie & Privacy was designed following the Garante's June 10, 2021 guidelines. Equal-prominence buttons, X = rejection, no dark patterns, 6-month expiry, consent logging.
 
 = What happens if I deactivate the plugin? =
 
@@ -137,6 +137,53 @@ All plugin data is removed: options, database tables, and downloaded fonts.
 5. Setup wizard — Step 1
 6. Banner settings tab
 7. Automatic cookie scanning
+
+== External services ==
+
+This plugin manages (blocks and conditionally loads) third-party services on your website. It does not send data to these services on its own — it controls whether scripts and content already present on your site are allowed to execute based on user consent.
+
+= Google Services (Google LLC) =
+
+When your website includes Google Analytics, Google Ads, Google Tag Manager, YouTube embeds, Google Maps, or Google Fonts, this plugin blocks their scripts and iframes until the user gives consent through the cookie banner.
+
+Additionally, the "Google Fonts Self-Hosting" feature downloads font files from Google's servers (fonts.googleapis.com and fonts.gstatic.com) to your server, so they can be served locally without transferring visitor IP addresses to Google. This download happens only when an administrator clicks the "Download Google Fonts" button in the plugin settings. No visitor data is sent to Google during this process.
+
+* Google Privacy Policy: https://policies.google.com/privacy
+* Google Terms of Service: https://policies.google.com/terms
+
+= Meta / Facebook (Meta Platforms Inc.) =
+
+When your website includes Facebook Pixel, Facebook social plugins, or Instagram embeds, this plugin blocks their scripts and iframes until the user gives consent.
+
+* Meta Privacy Policy: https://www.facebook.com/privacy/policy/
+* Meta Terms of Service: https://www.facebook.com/terms/
+
+= Hotjar (Hotjar Ltd.) =
+
+When your website includes Hotjar analytics scripts, this plugin blocks them until the user gives consent.
+
+* Hotjar Privacy Policy: https://www.hotjar.com/privacy/
+* Hotjar Terms of Service: https://www.hotjar.com/terms/
+
+= Microsoft Clarity (Microsoft Corporation) =
+
+When your website includes Microsoft Clarity scripts, this plugin blocks them until the user gives consent.
+
+* Microsoft Privacy Statement: https://privacy.microsoft.com/privacystatement
+* Microsoft Services Agreement: https://www.microsoft.com/servicesagreement
+
+= LinkedIn (LinkedIn Corporation) =
+
+When your website includes LinkedIn Insight Tag scripts, this plugin blocks them until the user gives consent.
+
+* LinkedIn Privacy Policy: https://www.linkedin.com/legal/privacy-policy
+* LinkedIn User Agreement: https://www.linkedin.com/legal/user-agreement
+
+= Other services =
+
+This plugin also blocks scripts from TikTok, Pinterest, Twitter/X, Amazon Ads, Criteo, Outbrain, Taboola, Vimeo, Spotify, Matomo, and Plausible when detected on your website. These are blocked until user consent is given through the cookie banner.
+
+The plugin also detects and can reference privacy policies for Cloudflare, Mailchimp/Intuit, Stripe, and PayPal in the auto-generated Privacy Policy page. These are informational links included in the generated policy text, not active connections made by the plugin.
 
 == Changelog ==
 

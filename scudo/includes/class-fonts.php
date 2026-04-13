@@ -60,7 +60,7 @@ class Scudo_Fonts {
 
         if ( empty( $css_urls ) ) {
             wp_send_json_success( [
-                'message' => __( 'Nessun Google Font rilevato nel sito.', 'scudo' ),
+                'message' => __( 'Nessun Google Font rilevato nel sito.', 'scudo-cookie-privacy' ),
                 'count'   => 0,
             ] );
         }
@@ -68,7 +68,7 @@ class Scudo_Fonts {
         // Step 2: Crea la directory di upload
         $upload_dir = self::get_upload_dir();
         if ( ! $upload_dir ) {
-            wp_send_json_error( __( 'Impossibile creare la directory dei font.', 'scudo' ) );
+            wp_send_json_error( __( 'Impossibile creare la directory dei font.', 'scudo-cookie-privacy' ) );
         }
 
         $map = [];
@@ -88,7 +88,7 @@ class Scudo_Fonts {
         wp_send_json_success( [
             'message'    => sprintf(
                 // translators: %1$d is the number of fonts downloaded, %2$d is the number of CSS stylesheets processed.
-                __( 'Scaricati %1$d font da %2$d fogli di stile Google Fonts. I font vengono ora serviti dal tuo server.', 'scudo' ),
+                __( 'Scaricati %1$d font da %2$d fogli di stile Google Fonts. I font vengono ora serviti dal tuo server.', 'scudo-cookie-privacy' ),
                 $font_count,
                 count( $map )
             ),

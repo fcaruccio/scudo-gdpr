@@ -81,7 +81,7 @@ class Scudo_Banner {
         ?>
 
 <!-- Scudo Cookie Banner -->
-<div id="scudo-banner" class="scudo-banner scudo-banner--<?php echo esc_attr( $position ); ?>" role="dialog" aria-modal="false" aria-label="<?php esc_attr_e( 'Gestione cookie', 'scudo' ); ?>" hidden>
+<div id="scudo-banner" class="scudo-banner scudo-banner--<?php echo esc_attr( $position ); ?>" role="dialog" aria-modal="false" aria-label="<?php esc_attr_e( 'Gestione cookie', 'scudo-cookie-privacy' ); ?>" hidden>
     <div class="scudo-banner__inner">
         <div class="scudo-banner__content">
             <p class="scudo-banner__title"><?php echo esc_html( $options['banner_title'] ); ?></p>
@@ -90,10 +90,10 @@ class Scudo_Banner {
                 <?php if ( $policy_url || $privacy_url ) : ?>
                     <span class="scudo-banner__links">
                         <?php if ( $policy_url ) : ?>
-                            <a href="<?php echo esc_url( $policy_url ); ?>" class="scudo-banner__link" target="_blank" rel="noopener"><?php esc_html_e( 'Cookie Policy', 'scudo' ); ?></a>
+                            <a href="<?php echo esc_url( $policy_url ); ?>" class="scudo-banner__link" target="_blank" rel="noopener"><?php esc_html_e( 'Cookie Policy', 'scudo-cookie-privacy' ); ?></a>
                         <?php endif; ?>
                         <?php if ( $privacy_url ) : ?>
-                            <a href="<?php echo esc_url( $privacy_url ); ?>" class="scudo-banner__link" target="_blank" rel="noopener"><?php esc_html_e( 'Privacy Policy', 'scudo' ); ?></a>
+                            <a href="<?php echo esc_url( $privacy_url ); ?>" class="scudo-banner__link" target="_blank" rel="noopener"><?php esc_html_e( 'Privacy Policy', 'scudo-cookie-privacy' ); ?></a>
                         <?php endif; ?>
                     </span>
                 <?php endif; ?>
@@ -104,17 +104,17 @@ class Scudo_Banner {
             <button type="button" class="scudo-btn scudo-btn--reject" data-gdpr-action="reject_all"><?php echo esc_html( $options['reject_text'] ); ?></button>
             <button type="button" class="scudo-btn scudo-btn--customize" data-gdpr-action="customize"><?php echo esc_html( $options['customize_text'] ); ?></button>
         </div>
-        <button type="button" class="scudo-banner__close" data-gdpr-action="reject_all" aria-label="<?php esc_attr_e( 'Chiudi (equivale a rifiutare)', 'scudo' ); ?>">&times;</button>
+        <button type="button" class="scudo-banner__close" data-gdpr-action="reject_all" aria-label="<?php esc_attr_e( 'Chiudi (equivale a rifiutare)', 'scudo-cookie-privacy' ); ?>">&times;</button>
     </div>
 </div>
 
 <!-- Scudo Preferences Panel -->
-<div id="scudo-prefs" class="scudo-prefs" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Preferenze cookie', 'scudo' ); ?>" hidden>
+<div id="scudo-prefs" class="scudo-prefs" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Preferenze cookie', 'scudo-cookie-privacy' ); ?>" hidden>
     <div class="scudo-prefs__overlay" data-gdpr-action="close_prefs"></div>
     <div class="scudo-prefs__panel">
         <div class="scudo-prefs__header">
-            <h2 class="scudo-prefs__title"><?php esc_html_e( 'Preferenze cookie', 'scudo' ); ?></h2>
-            <button type="button" class="scudo-prefs__close" data-gdpr-action="close_prefs" aria-label="<?php esc_attr_e( 'Chiudi', 'scudo' ); ?>">&times;</button>
+            <h2 class="scudo-prefs__title"><?php esc_html_e( 'Preferenze cookie', 'scudo-cookie-privacy' ); ?></h2>
+            <button type="button" class="scudo-prefs__close" data-gdpr-action="close_prefs" aria-label="<?php esc_attr_e( 'Chiudi', 'scudo-cookie-privacy' ); ?>">&times;</button>
         </div>
         <div class="scudo-prefs__body">
 
@@ -123,11 +123,11 @@ class Scudo_Banner {
                 <div class="scudo-prefs__cat-header">
                     <label class="scudo-prefs__cat-label">
                         <input type="checkbox" checked disabled>
-                        <span><?php esc_html_e( 'Necessari', 'scudo' ); ?></span>
+                        <span><?php esc_html_e( 'Necessari', 'scudo-cookie-privacy' ); ?></span>
                     </label>
-                    <span class="scudo-prefs__badge"><?php esc_html_e( 'Sempre attivi', 'scudo' ); ?></span>
+                    <span class="scudo-prefs__badge"><?php esc_html_e( 'Sempre attivi', 'scudo-cookie-privacy' ); ?></span>
                 </div>
-                <p class="scudo-prefs__cat-desc"><?php esc_html_e( 'Cookie indispensabili per il funzionamento del sito. Non possono essere disattivati.', 'scudo' ); ?></p>
+                <p class="scudo-prefs__cat-desc"><?php esc_html_e( 'Cookie indispensabili per il funzionamento del sito. Non possono essere disattivati.', 'scudo-cookie-privacy' ); ?></p>
             </div>
 
             <!-- Analytics -->
@@ -174,7 +174,7 @@ class Scudo_Banner {
 
 <?php if ( ! empty( $options['show_reopen_widget'] ) ) : ?>
 <!-- Scudo Reopen Widget -->
-<button type="button" id="scudo-reopen" class="scudo-reopen" aria-label="<?php esc_attr_e( 'Gestisci preferenze cookie', 'scudo' ); ?>" hidden>
+<button type="button" id="scudo-reopen" class="scudo-reopen" aria-label="<?php esc_attr_e( 'Gestisci preferenze cookie', 'scudo-cookie-privacy' ); ?>" hidden>
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg>
 </button>
 <?php endif; ?>

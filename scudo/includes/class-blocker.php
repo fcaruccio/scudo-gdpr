@@ -286,8 +286,8 @@ class Scudo_Blocker {
         $service = esc_html( $info['service'] );
         $cat_attr = esc_attr( $category );
 
-        $privacy_note = esc_html__( 'Per tutelare la tua privacy, questo contenuto non viene caricato automaticamente. Se scegli di visualizzarlo, i tuoi dati potrebbero essere condivisi con', 'scudo' );
-        $btn_text     = esc_html__( 'Gestisci le tue preferenze cookie', 'scudo' );
+        $privacy_note = esc_html__( 'Per tutelare la tua privacy, questo contenuto non viene caricato automaticamente. Se scegli di visualizzarlo, i tuoi dati potrebbero essere condivisi con', 'scudo-cookie-privacy' );
+        $btn_text     = esc_html__( 'Gestisci le tue preferenze cookie', 'scudo-cookie-privacy' );
 
         return '<div class="scudo-placeholder" data-gdpr-category="' . $cat_attr . '" data-gdpr-src="' . esc_attr( $src ) . '" data-gdpr-attrs="' . esc_attr( $attrs ) . '" style="width:' . esc_attr( $width ) . ';height:' . esc_attr( $height ) . '">'
              . '<div class="scudo-placeholder__inner">'
@@ -312,9 +312,9 @@ class Scudo_Blocker {
         // Fallback generico
         return [
             'icon'    => '<svg width="32" height="32" viewBox="0 0 24 24" fill="#6b7280" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
-            'title'   => __( 'Contenuto esterno', 'scudo' ),
-            'desc'    => __( 'Qui è presente un contenuto incorporato da un servizio esterno.', 'scudo' ),
-            'service' => __( 'un servizio di terze parti', 'scudo' ),
+            'title'   => __( 'Contenuto esterno', 'scudo-cookie-privacy' ),
+            'desc'    => __( 'Qui è presente un contenuto incorporato da un servizio esterno.', 'scudo-cookie-privacy' ),
+            'service' => __( 'un servizio di terze parti', 'scudo-cookie-privacy' ),
         ];
     }
 

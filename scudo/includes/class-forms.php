@@ -40,16 +40,16 @@ class Scudo_Forms {
         if ( $policy_url ) {
             return sprintf(
                 // translators: %s is the URL to the privacy policy page.
-                __( 'Ho letto l\'<a href="%s" target="_blank" rel="noopener">informativa sulla privacy</a> e acconsento al trattamento dei miei dati personali per la gestione della presente richiesta. *', 'scudo' ),
+                __( 'Ho letto l\'<a href="%s" target="_blank" rel="noopener">informativa sulla privacy</a> e acconsento al trattamento dei miei dati personali per la gestione della presente richiesta. *', 'scudo-cookie-privacy' ),
                 esc_url( $policy_url )
             );
         }
 
-        return __( 'Acconsento al trattamento dei miei dati personali per la gestione della presente richiesta, ai sensi del GDPR. *', 'scudo' );
+        return __( 'Acconsento al trattamento dei miei dati personali per la gestione della presente richiesta, ai sensi del GDPR. *', 'scudo-cookie-privacy' );
     }
 
     private static function get_marketing_text(): string {
-        return __( 'Acconsento a ricevere comunicazioni commerciali e newsletter.', 'scudo' );
+        return __( 'Acconsento a ricevere comunicazioni commerciali e newsletter.', 'scudo-cookie-privacy' );
     }
 
     /* ══════════════════════════════════════════════════════════════
@@ -133,7 +133,7 @@ class Scudo_Forms {
             // Aggiungi errore al primo campo
             if ( ! empty( $validation_result['form']['fields'] ) ) {
                 $validation_result['form']['fields'][0]['failed_validation'] = true;
-                $validation_result['form']['fields'][0]['validation_message'] = __( 'Devi accettare l\'informativa sulla privacy per inviare il modulo.', 'scudo' );
+                $validation_result['form']['fields'][0]['validation_message'] = __( 'Devi accettare l\'informativa sulla privacy per inviare il modulo.', 'scudo-cookie-privacy' );
             }
         }
         return $validation_result;
@@ -162,8 +162,8 @@ class Scudo_Forms {
         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- WordPress comment form handles its own nonce verification.
         if ( empty( $_POST['scudo_privacy'] ) ) {
             wp_die(
-                '<p>' . wp_kses( __( 'Devi accettare l\'informativa sulla privacy per pubblicare un commento.', 'scudo' ), [ 'a' => [ 'href' => [], 'target' => [], 'rel' => [] ] ] ) . '</p>',
-                esc_html__( 'Consenso richiesto', 'scudo' ),
+                '<p>' . wp_kses( __( 'Devi accettare l\'informativa sulla privacy per pubblicare un commento.', 'scudo-cookie-privacy' ), [ 'a' => [ 'href' => [], 'target' => [], 'rel' => [] ] ] ) . '</p>',
+                esc_html__( 'Consenso richiesto', 'scudo-cookie-privacy' ),
                 [ 'back_link' => true, 'response' => 403 ]
             );
         }
