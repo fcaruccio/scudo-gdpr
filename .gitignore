@@ -17,3 +17,6 @@ node_modules/
 # WordPress uploads (test locale)
 wp-content/
 wp-cli.phar
+
+# Build artifacts
+*.zip

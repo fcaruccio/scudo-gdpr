@@ -190,7 +190,7 @@ class Scudo_Banner {
         if ( $theme === 'light' ) {
             $bg = '#ffffff'; $text = '#1a1a2e'; $accent = '#2271b1'; $accept = '#1a1a2e'; $reject = '#1a1a2e';
         } elseif ( $theme === 'dark' ) {
-            $bg = '#1a1a2e'; $text = '#ffffff'; $accent = '#e94560'; $accept = '#ffffff'; $reject = '#ffffff';
+            $bg = '#1a1a2e'; $text = '#ffffff'; $accent = '#e94560'; $accept = '#5f6368'; $reject = '#5f6368';
         } else {
             $bg      = sanitize_hex_color( $options['color_bg'] ) ?: '#1a1a2e';
             $text    = sanitize_hex_color( $options['color_text'] ) ?: '#ffffff';

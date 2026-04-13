@@ -142,14 +142,14 @@
 
 /* PARI PROMINENZA: Accetta e Rifiuta hanno stessa dimensione, peso e stile */
 .scudo-btn--accept {
-    background: var(--gdpr-accept);
-    color: var(--gdpr-bg);
+    background: var(--gdpr-accept) !important;
+    color: #ffffff !important;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .scudo-btn--reject {
-    background: var(--gdpr-reject);
-    color: var(--gdpr-bg);
+    background: var(--gdpr-reject) !important;
+    color: #ffffff !important;
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -326,7 +326,7 @@
 }
 
 .scudo-prefs__cat-label input[type="checkbox"]:checked {
-    background: #0f9b58;
+    background: #0f9b58 !important;
 }
 
 .scudo-prefs__cat-label input[type="checkbox"]:checked::after {
