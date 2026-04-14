@@ -86,10 +86,27 @@ class Scudo_Blocker {
         }
 
         add_action( 'template_redirect', [ __CLASS__, 'start_buffer' ], 1 );
+        add_action( 'shutdown', [ __CLASS__, 'end_buffer' ], 0 );
     }
+
+    private static int $buffer_level = 0;
 
     public static function start_buffer(): void {
         ob_start( [ __CLASS__, 'process_buffer' ] );
+        self::$buffer_level = ob_get_level();
+    }
+
+    /**
+     * Chiudi esplicitamente il buffer che abbiamo aperto.
+     *
+     * WordPress.org richiede che ogni ob_start() abbia un ob_end_*() corrispondente
+     * nello stesso scope logico, per evitare disallineamenti nella pila dei buffer
+     * quando altri plugin/temi interagiscono con l'output buffering.
+     */
+    public static function end_buffer(): void {
+        if ( self::$buffer_level > 0 && ob_get_level() >= self::$buffer_level ) {
+            ob_end_flush();
+        }
     }
 
     /* ── Processa l'HTML in output ───────────────────────────────── */

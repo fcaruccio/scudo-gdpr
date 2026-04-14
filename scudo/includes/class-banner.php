@@ -188,23 +188,43 @@ class Scudo_Banner {
         $theme = $options['color_theme'] ?? 'dark';
 
         if ( $theme === 'light' ) {
-            $bg = '#ffffff'; $text = '#1a1a2e'; $accent = '#2271b1'; $accept = '#1a1a2e'; $reject = '#1a1a2e';
+            $colors = [
+                'bg' => '#ffffff', 'text' => '#1a1a2e',
+                'accent' => '#2271b1', 'accept' => '#1a1a2e', 'reject' => '#1a1a2e',
+            ];
         } elseif ( $theme === 'dark' ) {
-            $bg = '#1a1a2e'; $text = '#ffffff'; $accent = '#e94560'; $accept = '#5f6368'; $reject = '#5f6368';
+            $colors = [
+                'bg' => '#1a1a2e', 'text' => '#ffffff',
+                'accent' => '#e94560', 'accept' => '#5f6368', 'reject' => '#5f6368',
+            ];
         } else {
-            $bg      = sanitize_hex_color( $options['color_bg'] ) ?: '#1a1a2e';
-            $text    = sanitize_hex_color( $options['color_text'] ) ?: '#ffffff';
-            $accent  = sanitize_hex_color( $options['color_accent'] ) ?: '#e94560';
-            $accept  = sanitize_hex_color( $options['color_accept'] ) ?: '#ffffff';
-            $reject  = sanitize_hex_color( $options['color_reject'] ) ?: '#ffffff';
+            $colors = [
+                'bg'     => $options['color_bg']     ?? '',
+                'text'   => $options['color_text']   ?? '',
+                'accent' => $options['color_accent'] ?? '',
+                'accept' => $options['color_accept'] ?? '',
+                'reject' => $options['color_reject'] ?? '',
+            ];
         }
 
-        return ":root{"
-            . "--gdpr-bg:{$bg};"
-            . "--gdpr-text:{$text};"
-            . "--gdpr-accent:{$accent};"
-            . "--gdpr-accept:{$accept};"
-            . "--gdpr-reject:{$reject};"
-            . "}";
+        $defaults = [
+            'bg' => '#1a1a2e', 'text' => '#ffffff',
+            'accent' => '#e94560', 'accept' => '#ffffff', 'reject' => '#ffffff',
+        ];
+
+        $css = ':root{';
+        foreach ( $colors as $key => $value ) {
+            // Escape late: validazione hex al punto di interpolazione.
+            // sanitize_hex_color() restituisce la stringa o null; in caso di null
+            // cadiamo sul default hardcoded, che è già safe.
+            $safe = sanitize_hex_color( $value );
+            if ( ! $safe ) {
+                $safe = $defaults[ $key ];
+            }
+            $css .= '--gdpr-' . $key . ':' . $safe . ';';
+        }
+        $css .= '}';
+
+        return $css;
     }
 }

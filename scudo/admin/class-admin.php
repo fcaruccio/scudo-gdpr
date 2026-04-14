@@ -19,7 +19,7 @@ class Scudo_Admin {
 
     /* ── Menu ────────────────────────────────────────────────────── */
 
-    private const PARENT_SLUG = 'velocia';
+    private const PARENT_SLUG = 'scudo-velocia';
 
     public static function add_menu(): void {
         // Menu top-level "Velocia" (crealo solo se non esiste già)
