@@ -3,7 +3,7 @@
  * Plugin Name: Scudo Cookie & Privacy
  * Plugin URI:  https://github.com/fcaruccio/scudo-gdpr
  * Description: Compliance GDPR leggera. Davvero. Cookie banner, blocco script, consenso granulare, Google Consent Mode v2, privacy policy wizard — tutto in 12KB.
- * Version:     1.0.1
+ * Version:     1.0.2
  * Author:      Velocia
  * Author URI:  https://velocia.it
  * License:     GPL-2.0-or-later
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SCUDO_VERSION', '1.0.1' );
+define( 'SCUDO_VERSION', '1.0.2' );
 define( 'SCUDO_FILE', __FILE__ );
 define( 'SCUDO_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SCUDO_URL', plugin_dir_url( __FILE__ ) );
